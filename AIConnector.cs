@@ -1,0 +1,113 @@
+﻿using Jumoo.Json;
+using Jumoo.TranslationManager.AI.Models;
+using Jumoo.TranslationManager.AI.Services;
+using Jumoo.TranslationManager.Core.Configuration;
+using Jumoo.TranslationManager.Core.Models;
+using Jumoo.TranslationManager.Core.Providers;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Umbraco.Cms.Core;
+
+namespace Jumoo.TranslationManager.AI;
+
+public class AIConnector : ITranslationProvider
+{
+    public static string ConnectorName = "AI Connector";
+    public static string ConnectorAlias = "AIConnector";
+    public static string ConnectorVersion = typeof(AIConnector).Assembly.GetName()?.Version?.ToString(3) ?? "16.0.0";
+    public static string ConnectorPluginPath = "/App_Plugins/Translations.AI/";
+
+
+    private readonly AIConfigService _configService;
+    private readonly ILogger<AIConnector> _logger;
+    private AIOptions _options;
+    private readonly AITranslationService _translationService;
+
+    public AIConnector(AIConfigService configService, ILogger<AIConnector> logger, AITranslationService translationService)
+    {
+        _configService = configService;
+        _logger = logger;
+        _translationService = translationService;
+
+        Reload();
+    }
+
+
+
+    public string Name => ConnectorName;
+
+    public string Alias => ConnectorAlias;
+
+    public Guid Key => Guid.Parse("{3354D8C0-8294-48DA-9ED7-6DB6213703B6}");
+
+    public TranslationProviderViews Views => new TranslationProviderViews()
+    {
+        Config = "jumoo-ai-config",
+        Pending = "jumoo-ai-pending"
+    };
+
+    public bool Active()
+        => !string.IsNullOrWhiteSpace(_options.APIKey);
+
+
+
+
+    [MemberNotNull(nameof(_options))]
+    public void Reload()
+    {
+        _options = _configService.LoadOptions();
+    }
+
+    public async Task<Attempt<TranslationJob?>> Submit(TranslationJob job)
+    {
+        if (!Active())
+            throw new Exception("AI is not configured");
+
+        try
+        {
+            var sourceLang = job.SourceCulture.DisplayName;
+            var targetLang = job.TargetCulture.DisplayName;
+
+            _logger.LogDebug("Submitting Translations via AI");
+
+            var results = new AITranslationResult();
+
+            foreach (var node in job.Nodes)
+            {
+                _logger.LogDebug("Translating: {nodeId}", node.MasterNodeId);
+
+                var nodeResult = await _translationService.TranslateNodeAsync(node, sourceLang, targetLang, _options);
+                results.AppendResult(nodeResult);
+
+            }
+            job.Status = JobStatus.Received;
+            job.ProviderStatus = $"Translated via {_options.Translator}";
+            job.ProviderProperties = results.SerializeJsonString() ?? "";
+
+
+            return Attempt.Succeed(job);
+        }
+        catch (Exception exception)
+        {
+            _logger.LogError(exception, "Error submitting job via AI connector.");
+            return Attempt<TranslationJob?>.Fail(job, exception);
+        }
+    }
+    public IEnumerable<string> GetTargetLanguages(string sourceLanguage)
+        => Enumerable.Empty<string>();
+
+    public Task<Attempt<TranslationJob>> Cancel(TranslationJob job)
+        => Task.FromResult(Attempt<TranslationJob>.Succeed(job));
+    public bool CanTranslate(TranslationJob job) => true;
+
+    public Task<Attempt<TranslationJob>> Check(TranslationJob job)
+        => Task.FromResult(Attempt<TranslationJob>.Succeed(job));
+
+    public Task<Attempt<TranslationJob>> Remove(TranslationJob job)
+        => Task.FromResult(Attempt<TranslationJob>.Succeed(job));
+}

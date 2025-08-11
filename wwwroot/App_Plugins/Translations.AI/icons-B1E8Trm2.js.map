@@ -1,0 +1,1 @@
+{"version":3,"file":"icons-B1E8Trm2.js","sources":["../../../ai-client/src/icons/icons.ts"],"sourcesContent":["export default [\r\n  {\r\n    name: \"jumoo-tm-ai-logo\",\r\n    path: () => import(\"./ai-logo.js\"),\r\n  },\r\n];\r\n"],"names":["icons"],"mappings":"AAAA,MAAeA,IAAA;AAAA,EACb;AAAA,IACE,MAAM;AAAA,IACN,MAAM,MAAM,OAAO,uBAAc;AAAA,EAAA;AAErC;"}

@@ -1,0 +1,11 @@
+const localization: UmbExtensionManifest = {
+  type: "localization",
+  alias: "jumoo.ai.localization",
+  name: "AI Localization",
+  js: () => import("./en.js"),
+  meta: {
+    culture: "en",
+  },
+};
+
+export const manifests = [localization];

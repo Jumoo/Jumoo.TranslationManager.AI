@@ -1,5 +1,6 @@
 import {
   ManifestTranslationConnectorConfig,
+  ManifestTranslationConnectorJob,
   ManifestTranslationConnectorPending,
 } from "@jumoo/translate";
 
@@ -19,4 +20,16 @@ const connectorPending: ManifestTranslationConnectorPending = {
   js: () => import("./pending.view.js"),
 };
 
-export const manifests = [connectorConfig, connectorPending];
+const connectorSubmitted: ManifestTranslationConnectorJob = {
+  type: "jumoo-tm-connector-job",
+  alias: "jumoo-ai-submitted",
+  name: "AI Connector Submitted",
+  elementName: "jumoo-ai-submitted",
+  js: () => import("./submitted.view.js"),
+};
+
+export const manifests = [
+  connectorConfig,
+  connectorPending,
+  connectorSubmitted,
+];

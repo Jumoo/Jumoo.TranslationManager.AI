@@ -48,7 +48,9 @@ public class AIConnector : ITranslationProvider
     public TranslationProviderViews Views => new TranslationProviderViews()
     {
         Config = "jumoo-ai-config",
-        Pending = "jumoo-ai-pending"
+        Pending = "jumoo-ai-pending",
+        Submitted = "jumoo-ai-submitted",
+        Approved = "jumoo-ai-submitted",
     };
 
     public bool Active()

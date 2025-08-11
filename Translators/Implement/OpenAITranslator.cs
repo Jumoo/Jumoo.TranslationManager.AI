@@ -58,7 +58,10 @@ namespace Jumoo.TranslationManager.AI.Translators.Implement
                 AIResult = new AITranslationResult
                 {
                     TokensUsed = result.Usage?.TotalTokenCount ?? 0,
-                    ModelUsed = result.ModelId ?? options.Options.Model
+                    ModelUsed = result.ModelId ?? options.Options.Model,
+                    InputTokens = result.Usage?.InputTokenCount ?? 0,
+                    OutputTokens = result.Usage?.OutputTokenCount ?? 0,
+                    //ExtraMessage = "placeholder"
                 }
             };
 

@@ -48,5 +48,8 @@ export default {
     seed: "Seed",
     seedDescription:
       "Seed value used by a service to control the reproducibility of results",
+    modelUsed: "Model Used:",
+    tokensUsed: "Tokens Used:",
+    extra: "Extra Info:",
   },
 };

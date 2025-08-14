@@ -1,10 +1,14 @@
-﻿using HtmlAgilityPack;
+﻿using Azure;
+using HtmlAgilityPack;
+using Jumoo.Processing.Core.Communication;
 using Jumoo.TranslationManager.AI.Models;
 using Jumoo.TranslationManager.AI.Translators;
 using Jumoo.TranslationManager.Core;
+using Jumoo.TranslationManager.Core.Memory;
 using Jumoo.TranslationManager.Core.Models;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,18 +16,24 @@ using System.Text;
 using System.Threading.Tasks;
 using Umbraco.Cms.Core;
 using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
+using static Umbraco.Cms.Core.Diagnostics.MiniDump;
 
 namespace Jumoo.TranslationManager.AI.Services
 {
     public class AITranslationService
     {
+        private readonly TranslationMemoryService _memoryService;
+        private readonly IClientMessageService _clientMessageService;
+
         private readonly ILogger<AITranslationService> _logger;
         private readonly AITranslatorCollection _translators;
 
-        public AITranslationService(ILogger<AITranslationService> logger, AITranslatorCollection translators)
+        public AITranslationService(ILogger<AITranslationService> logger, AITranslatorCollection translators, TranslationMemoryService memoryService, IClientMessageService clientMessageService)
         {
             _logger = logger;
             _translators = translators;
+            _memoryService = memoryService;
+            _clientMessageService = clientMessageService;
         }
 
         public async Task<AITranslationResult> TranslateNodeAsync(TranslationNode node, string sourceLang, string targetLang, AIOptions options)
@@ -32,7 +42,7 @@ namespace Jumoo.TranslationManager.AI.Services
 
             var translator = _translators.GetTranslator(options.Translator) ??
                 throw new KeyNotFoundException($"Can't find translator of {options.Translator}");
-            
+
             var request = new AITranslatorRequest
             {
                 Translator = translator,
@@ -48,6 +58,8 @@ namespace Jumoo.TranslationManager.AI.Services
 
             var aiResult = new AITranslationResult();
 
+            var count = 0;
+            var total = node.Groups.Sum(g => g.Properties.Count);
 
             foreach (var group in node.Groups)
             {
@@ -56,7 +68,16 @@ namespace Jumoo.TranslationManager.AI.Services
                     _logger.LogDebug("Translation: {nodeId} {group} {property}",
                         node.MasterNodeId, group, property);
 
+                    await _clientMessageService.SendUpdateAsync(new ClientMessage
+                    {
+                        Title = "Translating",
+                        Message = $"Translating {property.Source?.Path ?? ""} for {node.MasterNodeName} ({node.Id})",
+                        Progress = (int)((count / (double)total) * 100),
+                    }, string.Empty);
+
                     if (property.Source == null || property.Target == null) continue;
+
+                    request.RequestOptions.Reference = node.Key.ToString();
 
                     var result = await GetTranslatedValue(
                         property.Source, property.Target, request);
@@ -250,25 +271,43 @@ namespace Jumoo.TranslationManager.AI.Services
                         _logger.LogDebug("Chunk {length}", b.Length);
                     }
 
+                    var toTranslate = block;
+                    var memory = new Dictionary<int, string>();
 
-                    //var translationOptions = new OpenAITranslationOptions
-                    //{
-                    //    SourceLanguage = sourceLang,
-                    //    TargetLanguage = targetLang,
-                    //    IsHtml = isHtml,
-                    //    Model = _model,
-                    //    Prompt = _prompt,
-                    //    SystemPrompt = _systemPrompt
-                    //};
+                    if (request.RequestOptions.Options.UseTranslationMemory is true)
+                    {
 
-                    var translated = await request.Translator.TranslateText(block, request.RequestOptions);
-                    var text = translated.Value.Select(x => x);
+                        memory = await GetTranslatedMemoryValues(block, request.RequestOptions.SourceLanguage, request.RequestOptions.TargetLanguage, request.Translator.Alias);
+                        foreach (var key in memory.Keys.OrderDescending())
+                        {
+                            toTranslate.RemoveAt(key);
+                        }
+                    }
 
-                    aiResult.AppendResult(translated.AIResult);
+                    _logger.LogDebug("Memory: {memory} values - remaining {pending}", memory.Count, toTranslate.Count);
 
-                    _logger.LogDebug("Returned: {count} translated values", text.Count());
+                    List<string> text = [];
+                    if (toTranslate.Count > 0)
+                    {
+                        ///////
+                        var response = await request.Translator.TranslateText(block, request.RequestOptions);
+                        ///////
+                        
+                        aiResult.AppendResult(response.AIResult);
 
-                    translatedText.Append(string.Join("", text));
+                        text = [.. response.Value];
+
+                        _logger.LogDebug("Returned: {count} translated values", text.Count);
+
+                        // add the translated values to memory
+                        if (request.RequestOptions.Options.UseTranslationMemory is true)
+                            await AddTranslationMemory(toTranslate, text, request.RequestOptions.SourceLanguage, request.RequestOptions.TargetLanguage, request.RequestOptions.Reference, request.Translator.Alias);
+                    }
+
+                    // merge the memory values back in
+                    var merged = MergeTranslationMemory(text, memory);
+
+                    translatedText.Append(string.Join("", merged));
                 }
                 else
                 {
@@ -279,9 +318,10 @@ namespace Jumoo.TranslationManager.AI.Services
 
             _logger.LogDebug("Translated: {translated}", translatedText.ToString());
 
-            return new AITranslationValueResult<string> {
+            return new AITranslationValueResult<string>
+            {
                 Value = translatedText.ToString().Trim(),
-                AIResult = aiResult 
+                AIResult = aiResult
             };
         }
 
@@ -336,6 +376,70 @@ namespace Jumoo.TranslationManager.AI.Services
             }
 
             return false;
+        }
+
+
+        /// <summary>
+        ///  gets the list of values from the translation memory
+        /// </summary>
+        /// <remarks>
+        ///  returns a dictionary of index and value, where the index is the list, so we can add it back in.
+        /// </remarks>
+        private async Task<Dictionary<int, string>> GetTranslatedMemoryValues(List<string> values, string source, string target, string translatorName)
+        {
+            var translated = new Dictionary<int, string>();
+
+            for (int n = 0; n < values.Count; n++)
+            {
+                var value = values[n];
+                var memory = await _memoryService.GetMemoriesAsync(source, target, value, translatorName);
+                if (memory.Any())
+                {
+                    _logger.LogDebug("Found memory for {value} at index {index}", value, n);
+                    translated.Add(n, memory.First().Translation);
+                }
+            }
+
+            return translated;
+        }
+
+        private async Task AddTranslationMemory(List<string> source, List<string> values, string sourceLang, string targetLang, string reference, string translatorName)
+        {
+            await _memoryService.AddMemories(sourceLang, targetLang, source, values, translatorName, reference, false);
+        }
+
+        private List<string> MergeTranslationMemory(List<string> translated, Dictionary<int, string> memory)
+        {
+            if (memory.Count == 0)
+            {
+                _logger.LogDebug("No memory values to merge, returning translated values");
+                return translated;
+            }
+
+            var total = translated.Count + memory.Count;
+            var merged = new List<string>(translated.Count + memory.Count);
+            int next = 0;
+            for (int index = 0; index < total; index++)
+            {
+                if (memory.TryGetValue(index, out var memValue))
+                {
+                    _logger.LogDebug("Using memory value for index {index}: {value}", index, memValue);
+                    merged.Add(memValue);
+                }
+                else
+                {
+                    if (next < translated.Count)
+                    {
+                        merged.Add(translated[next]);
+                        next++;
+                    }
+                    else
+                    {
+                        _logger.LogWarning("No memory value for index {index}, but no text to add", index);
+                    }
+                }
+            }
+            return merged;
         }
     }
 }

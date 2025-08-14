@@ -51,5 +51,8 @@ export default {
     modelUsed: "Model Used:",
     tokensUsed: "Tokens Used:",
     extra: "Extra Info:",
+    translationMemory: "Use Translation Memory",
+    translationMemoryDescription:
+      "Writes and uses local translation memory during a job",
   },
 };

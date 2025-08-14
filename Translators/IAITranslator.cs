@@ -27,7 +27,7 @@ public class AITranslatorRequestOptions
 {
     public required string SourceLanguage { get; set; }
     public required string TargetLanguage { get; set; }
-
+    public string Reference {  get; set; } = string.Empty;
     public required AIOptions Options { get; set; }
 
 }

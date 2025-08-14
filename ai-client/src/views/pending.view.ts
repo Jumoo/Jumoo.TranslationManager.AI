@@ -14,6 +14,7 @@ type AiSettings = {
   throttle: string;
   split: string;
   asHtml: string;
+  useTranslationMemory: string;
   model: string;
   maxTokens: string;
   temperature: string;
@@ -61,7 +62,11 @@ export class TranslationAiConnectorPendingElement
       </div>
       <div class="setting">
         <div class="title">As Html</div>
-        <div class="value">${settings?.split ?? "false"}</div>
+        <div class="value">${settings?.asHtml ?? "false"}</div>
+      </div>
+      <div class="setting">
+        <div class="title">Translation Memory</div>
+        <div class="value">${settings?.useTranslationMemory}</div>
       </div>
     </uui-box>`;
   }
@@ -154,7 +159,7 @@ export class TranslationAiConnectorPendingElement
 
     .title {
       font-weight: bold;
-      min-width: 100px;
+      min-width: 150px;
       text-align: right;
     }
 

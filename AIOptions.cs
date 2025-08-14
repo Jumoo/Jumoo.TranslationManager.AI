@@ -11,17 +11,18 @@ public class AIOptions
 {
     public required string APIKey { get; set; }
     public required string Translator {  get; set; }
-    public int Throttle { get; set; }
+    public int Throttle { get; set; } = AIConstants.Defaults.Throttle;
     public bool Split { get; set; }
     public bool AsHtml { get; set; }
-    public required string Model { get; set; }
-    public required string Prompt { get; set; }
-    public required string SystemPrompt { get; set; }
-    public int? MaxTokens { get; set; }
-    public float? Temperature { get; set; }
-    public float? FrequencyPenalty { get; set; }
-    public float? PresencePenalty { get; set; }
-    public float? NucleusSamplingFactor { get; set; }
+    public bool UseTranslationMemory { get; set; }
+    public required string Model { get; set; } = AIConstants.Defaults.Model;
+    public required string Prompt { get; set; } = AIConstants.Defaults.Prompt;
+    public required string SystemPrompt { get; set; } = AIConstants.Defaults.Prompt;
+    public int? MaxTokens { get; set; } = AIConstants.Defaults.MaxTokens;
+    public float? Temperature { get; set; } = AIConstants.Defaults.Temperature;
+    public float? FrequencyPenalty { get; set; } = AIConstants.Defaults.FrequencyPenalty;
+    public float? PresencePenalty { get; set; } = AIConstants.Defaults.PresencePenalty;
+    public float? NucleusSamplingFactor { get; set; } = AIConstants.Defaults.NucleusSamplingFactor;
     public Dictionary<string, object?> AdditionalProperties { get; set; } = [];
     public bool? AllowMultipleToolCalls { get; set; }
     public string? ConversationId { get; set; }

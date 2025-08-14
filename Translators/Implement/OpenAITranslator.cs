@@ -12,8 +12,10 @@ namespace Jumoo.TranslationManager.AI.Translators.Implement
 
         public Task Initialize(AITranslatorRequestOptions options)
         {
+            var model = string.IsNullOrWhiteSpace(options.Options.Model) ? AIConstants.Defaults.Model : options.Options.Model;
+
             client =
-                new OpenAI.Chat.ChatClient(options.Options.Model, options.Options.APIKey)
+                new OpenAI.Chat.ChatClient(model, options.Options.APIKey)
                 .AsIChatClient();
             return Task.CompletedTask;
         }

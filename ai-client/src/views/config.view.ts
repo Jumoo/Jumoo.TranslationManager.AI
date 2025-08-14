@@ -70,7 +70,7 @@ export class TranslationAiConnectorConfigElement
             <div>
               ${this.renderService()} ${this.renderConfigView()}
               ${this.renderThrottle()} ${this.renderSplitOption()}
-              ${this.renderSendAsHtmlOption()}
+              ${this.renderSendAsHtmlOption()} ${this.renderTranslationMemory()}
             </div>
           </uui-box>
           <uui-box class="${this.advancedExpanded ? "" : "collapsed"}">
@@ -185,6 +185,23 @@ export class TranslationAiConnectorConfigElement
           label="Split Html"
           id="split"
           .checked=${(this.settings?.split as boolean) ?? false}
+          @change=${this.onUpdateOption}
+        >
+        </uui-checkbox>
+      </div>
+    </umb-property-layout>`;
+  }
+
+  renderTranslationMemory() {
+    return html` <umb-property-layout
+      label=${this.localize.term("ai_translationMemory")}
+      description=${this.localize.term("ai_translationMemoryDescription")}
+    >
+      <div slot="editor">
+        <uui-checkbox
+          label="Use Translation Memory"
+          id="useTranslationMemory"
+          .checked=${(this.settings?.useTranslationMemory as boolean) ?? false}
           @change=${this.onUpdateOption}
         >
         </uui-checkbox>
@@ -338,7 +355,7 @@ export class TranslationAiConnectorConfigElement
           id="prompt"
           label="Prompt"
           .value=${(this.settings?.prompt as string) ??
-          "You will be provided with sentences in {sourceLang}, and your task is to translate it into {targetLang}"}
+          "You will be provided with sentences in {sourceLang}, and your task is to translate it into {targetLang}. If you cannot translate something, leave it as it is. Translate all the text below: \n\r{text}"}
           @change=${this.onUpdateOption}
           rows="5"
         ></uui-textarea>

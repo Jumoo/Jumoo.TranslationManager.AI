@@ -44,8 +44,7 @@ export class TranslationAiConnectorPendingElement
   }
 
   renderSettings(settings: AiSettings) {
-    return html` <uui-box
-      ><div slot="headline">Settings</div>
+    return html` <jumoo-tm-ui-box headline="Settings">
       <div class="setting">
         <div class="title">Translator</div>
         <div class="value">
@@ -68,73 +67,66 @@ export class TranslationAiConnectorPendingElement
         <div class="title">Translation Memory</div>
         <div class="value">${settings?.useTranslationMemory}</div>
       </div>
-    </uui-box>`;
+    </jumoo-tm-ui-box>`;
   }
 
   renderAdvanced(settings: AiSettings) {
-    return html`<uui-box class="${this.settingsExpanded ? "" : "collapsed"}">
-      <div
-        class="headline"
-        slot="headline"
-        @click=${() => (this.settingsExpanded = !this.settingsExpanded)}
-      >
-        Advanced Settings
+    return html`<jumoo-tm-ui-box
+      headline="Advanced Settings"
+      .collapsable=${true}
+      .expanded=${false}
+    >
+      <div class="setting">
+        <div class="title">Model</div>
+        <div class="value">${settings?.model ?? "gpt-4o-mini"}</div>
       </div>
-      ${when(
-        this.settingsExpanded,
-        () =>
-          html` <div class="setting">
-              <div class="title">Model</div>
-              <div class="value">${settings?.model ?? "gpt-4o-mini"}</div>
-            </div>
-            <div class="setting">
-              <div class="title">Max Tokens</div>
-              <div class="value">${settings?.maxTokens ?? "500"}</div>
-            </div>
-            <div class="setting">
-              <div class="title">Temperature</div>
-              <div class="value">${settings?.temperature ?? "1"}</div>
-            </div>
-            <div class="setting">
-              <div class="title">Frequency Penalty</div>
-              <div class="value">${settings?.frequencyPenalty ?? "0"}</div>
-            </div>
-            <div class="setting">
-              <div class="title">Presence Penalty</div>
-              <div class="value">${settings?.presencePenalty ?? "0"}</div>
-            </div>
-            <div class="setting">
-              <div class="title">Nucleus Sampling</div>
-              <div class="value">${settings?.nucleusSampling ?? "1"}</div>
-            </div>
-            <div class="setting">
-              <div class="title">Conversation ID</div>
-              <div class="value">
-                ${settings?.conversationId?.length > 0
-                  ? settings.conversationId
-                  : "(None)"}
-              </div>
-            </div>
-            <div class="setting">
-              <div class="title">Instructions</div>
-              <div class="value">
-                ${settings?.instructions?.length > 0
-                  ? settings.instructions
-                  : "(None)"}
-              </div>
-            </div>
-            <div class="setting">
-              <div class="title">TopK</div>
-              <div class="value">${settings?.topK ?? "1"}</div>
-            </div>
-            <div class="setting">
-              <div class="title">Seed</div>
-              <div class="value">
-                ${settings?.seed?.length > 0 ? settings.seed : "(Random)"}
-              </div>
-            </div>`
-      )}
-    </uui-box>`;
+      <div class="setting">
+        <div class="title">Max Tokens</div>
+        <div class="value">${settings?.maxTokens ?? "500"}</div>
+      </div>
+      <div class="setting">
+        <div class="title">Temperature</div>
+        <div class="value">${settings?.temperature ?? "1"}</div>
+      </div>
+      <div class="setting">
+        <div class="title">Frequency Penalty</div>
+        <div class="value">${settings?.frequencyPenalty ?? "0"}</div>
+      </div>
+      <div class="setting">
+        <div class="title">Presence Penalty</div>
+        <div class="value">${settings?.presencePenalty ?? "0"}</div>
+      </div>
+      <div class="setting">
+        <div class="title">Nucleus Sampling</div>
+        <div class="value">${settings?.nucleusSampling ?? "1"}</div>
+      </div>
+      <div class="setting">
+        <div class="title">Conversation ID</div>
+        <div class="value">
+          ${settings?.conversationId?.length > 0
+            ? settings.conversationId
+            : "(None)"}
+        </div>
+      </div>
+      <div class="setting">
+        <div class="title">Instructions</div>
+        <div class="value">
+          ${settings?.instructions?.length > 0
+            ? settings.instructions
+            : "(None)"}
+        </div>
+      </div>
+      <div class="setting">
+        <div class="title">TopK</div>
+        <div class="value">${settings?.topK ?? "1"}</div>
+      </div>
+      <div class="setting">
+        <div class="title">Seed</div>
+        <div class="value">
+          ${settings?.seed?.length > 0 ? settings.seed : "(Random)"}
+        </div>
+      </div>
+    </jumoo-tm-ui-box>`;
   }
   static styles = css`
     uui-box {
@@ -153,7 +145,7 @@ export class TranslationAiConnectorPendingElement
       margin: var(--uui-size-space-5) 0;
     }
 
-    .collapsed {
+    .expanded {
       --uui-box-default-padding: 0;
     }
 

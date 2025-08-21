@@ -10,7 +10,6 @@ import {
   html,
   nothing,
   state,
-  when,
 } from "@umbraco-cms/backoffice/external/lit";
 import { AiTranslate, AiTranslatorView } from "../api";
 import { ManifestAITranslatorConfig } from "../translators";
@@ -65,46 +64,32 @@ export class TranslationAiConnectorConfigElement
               API Key.
             </p>
           </uui-box>
-          <uui-box>
-            <div slot="headline">AI Translation Api</div>
+          <jumoo-tm-ui-box headline="AI Translation API">
             <div>
               ${this.renderService()} ${this.renderConfigView()}
               ${this.renderThrottle()} ${this.renderSplitOption()}
               ${this.renderSendAsHtmlOption()} ${this.renderTranslationMemory()}
             </div>
-          </uui-box>
-          <uui-box class="${this.advancedExpanded ? "" : "collapsed"}">
-            <div
-              class="headline"
-              slot="headline"
-              @click=${() => (this.advancedExpanded = !this.advancedExpanded)}
-            >
-              Advanced Options
+          </jumoo-tm-ui-box>
+          <jumoo-tm-ui-box
+            headline="Advanced Options"
+            .collapsable=${true}
+            .expanded=${false}
+          >
+            <div>
+              ${this.renderModel()}${this.renderMaxTokens()}
+              ${this.renderTemperature()}${this.renderFrequencyPenalty()}
+              ${this.renderPresencePenalty()}${this.renderNucleusSamplingFactor()}
+              ${this.renderConversationId()}${this.renderInstructions()}
+              ${this.renderSeed()}${this.renderTopK()}
             </div>
-            ${when(
-              this.advancedExpanded,
-              () =>
-                html`<div>
-                  ${this.renderModel()}${this.renderMaxTokens()}
-                  ${this.renderTemperature()}${this.renderFrequencyPenalty()}
-                  ${this.renderPresencePenalty()}${this.renderNucleusSamplingFactor()}
-                  ${this.renderConversationId()}${this.renderInstructions()}
-                  ${this.renderSeed()}${this.renderTopK()}
-                </div>`
-            )}
-          </uui-box>
-          <uui-box class="${this.promptExpanded ? "" : "collapsed"}"
-            ><div
-              class="headline"
-              slot="headline"
-              @click=${() => (this.promptExpanded = !this.promptExpanded)}
-            >
-              Prompt
-            </div>
-            ${when(
-              this.promptExpanded,
-              () => html`<div>${this.renderPrompt()}</div>`
-            )}</uui-box
+          </jumoo-tm-ui-box>
+          <jumoo-tm-ui-box
+            headline="Prompt"
+            .collapsable=${true}
+            .expanded=${false}
+          >
+            ${this.renderPrompt()}</jumoo-tm-ui-box
           >
         </div>
       </div>
@@ -470,11 +455,11 @@ export class TranslationAiConnectorConfigElement
       max-width: 325px;
     }
 
-    .collapsed {
+    .expanded {
       --uui-box-default-padding: 0;
     }
 
-    uui-box .headline {
+    jumoo-tm-ui-box .headline {
       cursor: pointer;
     }
 

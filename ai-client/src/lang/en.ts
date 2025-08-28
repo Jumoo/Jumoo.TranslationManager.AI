@@ -4,6 +4,11 @@ export default {
     openAIApiKeyDescription: "AI Translation API Key for OpenAI",
     githubAuthKey: "GitHub Auth Key",
     githubAuthKeyDescription: "AI Translation Auth Key for GitHub",
+    azureApiKey: "Azure OpenAI API Key",
+    azureApiKeyDescription: "AI Translation API Key for Azure OpenAI",
+    azureUrl: "Azure Endpoint URL",
+    azureUrlDescription:
+      "Supported Azure OpenAI endpoints (protocol and hostname, for example: https://aoairesource.openai.azure.com. Replace 'aoairesource' with your Azure OpenAI resource name). https://{your-resource-name}.openai.azure.com",
     throttle: "Throttle",
     throttleDescription:
       "Number of milliseconds to wait between calls (To Avoid API Throttling)",

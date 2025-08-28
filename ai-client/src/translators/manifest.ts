@@ -1,4 +1,5 @@
 import { manifests as OpenAIConfig } from "./openAI/manifest.js";
 import { manifests as GitHubConfig } from "./github/manifest.js";
+import { manifests as AzureConfig } from "./AzureOpenAI/manifest.js";
 
-export const manifests = [...OpenAIConfig, ...GitHubConfig];
+export const manifests = [...OpenAIConfig, ...GitHubConfig, ...AzureConfig];

@@ -19,10 +19,10 @@ export class OpenAITranslatorConfigElement
       .description=${this.localize.term("ai_openAIApiKeyDescription")}
       ><div slot="editor">
         <uui-input
-          id="apiKey"
+          id="openAiKey"
           label="ApiKey"
-          .value=${(this.settings?.apiKey as string) ?? ""}
-          @change=${this.onUpdateOption}
+          .value=${(this.settings?.additional?.openAiKey as string) ?? ""}
+          @change=${this.onUpdateAdditional}
         ></uui-input>
       </div>
     </umb-property-layout>`;

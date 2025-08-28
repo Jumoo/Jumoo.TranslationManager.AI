@@ -91,6 +91,7 @@ export class TranslationAiConnectorConfigElement
           >
             ${this.renderPrompt()}</jumoo-tm-ui-box
           >
+          <pre>${JSON.stringify(this.settings, null, 1)}</pre>
         </div>
       </div>
     </umb-body-layout>`;
@@ -442,6 +443,11 @@ export class TranslationAiConnectorConfigElement
       gap: var(--uui-size-space-5);
     }
 
+    uui-box,
+    jumoo-tm-ui-box {
+      --uui-box-default-padding: 0 var(--uui-size-space-5);
+    }
+
     .left,
     .right {
       display: flex;
@@ -453,14 +459,6 @@ export class TranslationAiConnectorConfigElement
     .right {
       flex-basis: 30%;
       max-width: 325px;
-    }
-
-    .expanded {
-      --uui-box-default-padding: 0;
-    }
-
-    jumoo-tm-ui-box .headline {
-      cursor: pointer;
     }
 
     @media screen and (max-width: 1280px) {

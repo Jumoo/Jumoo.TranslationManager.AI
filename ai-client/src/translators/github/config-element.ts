@@ -19,10 +19,10 @@ export class GitHubTranslatorConfigElement
       .description=${this.localize.term("ai_githubAuthKeyDescription")}
       ><div slot="editor">
         <uui-input
-          id="apiKey"
+          id="githubKey"
           label="ApiKey"
-          .value=${(this.settings?.apiKey as string) ?? ""}
-          @change=${this.onUpdateOption}
+          .value=${(this.settings?.additional?.githubKey as string) ?? ""}
+          @change=${this.onUpdateAdditional}
         ></uui-input>
       </div>
     </umb-property-layout>`;

@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Umbraco.Extensions;
 
 namespace Jumoo.TranslationManager.AI;
 
 public class AIOptions
 {
     public required string APIKey { get; set; }
+    public string? URL { get; set; }
     public required string Translator {  get; set; }
     public int Throttle { get; set; } = AIConstants.Defaults.Throttle;
     public bool Split { get; set; }
@@ -23,7 +25,7 @@ public class AIOptions
     public float? FrequencyPenalty { get; set; } = AIConstants.Defaults.FrequencyPenalty;
     public float? PresencePenalty { get; set; } = AIConstants.Defaults.PresencePenalty;
     public float? NucleusSamplingFactor { get; set; } = AIConstants.Defaults.NucleusSamplingFactor;
-    public Dictionary<string, object?> AdditionalProperties { get; set; } = [];
+    public Dictionary<string, object?> Additional { get; set; } = [];
     public bool? AllowMultipleToolCalls { get; set; }
     public string? ConversationId { get; set; }
     public string? Instructions { get; set; }
@@ -32,6 +34,21 @@ public class AIOptions
     public ChatToolMode? ToolMode { get; set; }
     public IList<AITool>? Tools { get; set; }
     public int? TopK {  get; set; }
+}
+
+public static class AIOptionsExtensions
+{
+    public static TObject GetAdditionalOption<TObject>(this AIOptions options, string key, TObject defaultValue)
+    {
+        if ( options.Additional.TryGetValue(key, out var result) )
+        {
+            var attempt = result.TryConvertTo<TObject>();
+            if (attempt.Success)
+                return attempt.Result;
+        }
+
+        return defaultValue;
+    }
 }
 
 

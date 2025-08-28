@@ -7,7 +7,6 @@ import {
   customElement,
   html,
   state,
-  when,
 } from "@umbraco-cms/backoffice/external/lit";
 
 type AiSettings = {

@@ -46,7 +46,7 @@ namespace Jumoo.TranslationManager.AI.Translators.Implement
                 Temperature = options.Options.Temperature,
                 PresencePenalty = options.Options.PresencePenalty,
                 TopP = options.Options.NucleusSamplingFactor,
-                AdditionalProperties = new AdditionalPropertiesDictionary(options.Options.AdditionalProperties),
+                AdditionalProperties = new AdditionalPropertiesDictionary(options.Options.Additional),
                // TopK = options.Options.TopK,
                 //AllowMultipleToolCalls = options.Options.Tools?.Count > 0, // options.Options.AllowMultipleToolCalls,
                 ConversationId = options.Options.ConversationId,

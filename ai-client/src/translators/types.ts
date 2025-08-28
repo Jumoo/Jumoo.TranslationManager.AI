@@ -29,4 +29,25 @@ export class TranslatorAIConfigElementBase extends UmbLitElement {
       })
     );
   }
+
+  protected onUpdateAdditional(e: Event) {
+    const input = e.target as HTMLInputElement;
+    if (!input || !this.settings) return;
+
+    const property = input.id;
+    const value = input.checked !== undefined ? input.checked : input.value;
+
+    const addtionalValue = {
+      ...this.settings.additional,
+      ...{ [property]: value },
+    };
+
+    this.dispatchEvent(
+      new CustomEvent("ai-translator-config-update", {
+        bubbles: true,
+        composed: true,
+        detail: { name: "additional", value: addtionalValue },
+      })
+    );
+  }
 }

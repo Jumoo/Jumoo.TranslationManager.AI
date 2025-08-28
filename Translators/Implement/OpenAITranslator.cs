@@ -14,8 +14,12 @@ namespace Jumoo.TranslationManager.AI.Translators.Implement
         {
             var model = string.IsNullOrWhiteSpace(options.Options.Model) ? AIConstants.Defaults.Model : options.Options.Model;
 
+            var apiStringKey = options.Options.GetAdditionalOption<string?>("openAiKey", null);
+        if (string.IsNullOrWhiteSpace(apiStringKey))
+                throw new Exception("No azure api key");
+
             client =
-                new OpenAI.Chat.ChatClient(model, options.Options.APIKey)
+                new OpenAI.Chat.ChatClient(model, options.Options.GetAdditionalOption("openAiKey", string.Empty))
                 .AsIChatClient();
             return Task.CompletedTask;
         }
@@ -38,7 +42,7 @@ namespace Jumoo.TranslationManager.AI.Translators.Implement
                 Temperature = options.Options.Temperature,
                 PresencePenalty = options.Options.PresencePenalty,
                 TopP = options.Options.NucleusSamplingFactor,
-                AdditionalProperties = new AdditionalPropertiesDictionary(options.Options.AdditionalProperties),
+                AdditionalProperties = new AdditionalPropertiesDictionary(options.Options.Additional),
                 TopK = options.Options.TopK,
                 //AllowMultipleToolCalls = options.Options.Tools?.Count > 0, // options.Options.AllowMultipleToolCalls,
                 ConversationId = options.Options.ConversationId,

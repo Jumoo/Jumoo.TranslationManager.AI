@@ -62,7 +62,7 @@ public class AIConnector : ITranslationProvider
     [MemberNotNull(nameof(_options))]
     public void Reload()
     {
-        _options = _configService.LoadOptions();
+        _options = _configService.LoadOptions().Result;
     }
 
     public async Task<Attempt<TranslationJob?>> Submit(TranslationJob job)

@@ -292,16 +292,19 @@ namespace Jumoo.TranslationManager.AI.Services
                         ///////
                         var response = await request.Translator.TranslateText(block, request.RequestOptions);
                         ///////
-                        
-                        aiResult.AppendResult(response.AIResult);
 
-                        text = [.. response.Value];
+                        if (response.Value != null)
+                        {
+                            aiResult.AppendResult(response.AIResult);
 
-                        _logger.LogDebug("Returned: {count} translated values", text.Count);
+                            text = [.. response.Value];
 
-                        // add the translated values to memory
-                        if (request.RequestOptions.Options.UseTranslationMemory is true)
-                            await AddTranslationMemory(toTranslate, text, request.RequestOptions.SourceLanguage, request.RequestOptions.TargetLanguage, request.RequestOptions.Reference, request.Translator.Alias);
+                            _logger.LogDebug("Returned: {count} translated values", text.Count);
+
+                            // add the translated values to memory
+                            if (request.RequestOptions.Options.UseTranslationMemory is true)
+                                await AddTranslationMemory(toTranslate, text, request.RequestOptions.SourceLanguage, request.RequestOptions.TargetLanguage, request.RequestOptions.Reference, request.Translator.Alias);
+                        }
                     }
 
                     // merge the memory values back in

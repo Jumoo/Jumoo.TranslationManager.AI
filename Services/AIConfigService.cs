@@ -1,4 +1,5 @@
-﻿using Jumoo.TranslationManager.Core.Configuration;
+﻿using Jumoo.Json;
+using Jumoo.TranslationManager.Core.Configuration;
 using Microsoft.Extensions.AI;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace Jumoo.TranslationManager.AI.Services
     public class AIConfigService
     {
         private readonly TranslationConfigService _configService;
-        private AIOptions _options;
+        private AIOptions? _options;
 
         private readonly string _alias = AIConnector.ConnectorAlias;
 
@@ -21,63 +22,72 @@ namespace Jumoo.TranslationManager.AI.Services
             _configService = configService;
         }
 
-        public AIOptions LoadOptions()
+        public async Task<AIOptions> LoadOptions()
         {
             _options = new AIOptions
             {
-                APIKey = _configService.GetProviderSetting(_alias, "apiKey", string.Empty),
-                Translator = _configService.GetProviderSetting(_alias, "translator", string.Empty),
-                Model = _configService.GetProviderSetting(_alias, "model", AIConstants.Defaults.Model),
-                AsHtml = _configService.GetProviderSetting(_alias, "asHtml", true),
-                Prompt = _configService.GetProviderSetting(_alias, "prompt", AIConstants.Defaults.Prompt),
-                SystemPrompt = _configService.GetProviderSetting(_alias, "systemPrompt", AIConstants.Defaults.Prompt),
-                Split = _configService.GetProviderSetting(_alias, "split", true),
-                Throttle = _configService.GetProviderSetting(_alias, "throttle", AIConstants.Defaults.Throttle),
-                UseTranslationMemory = _configService.GetProviderSetting(_alias, "useTranslationMemory", false),
-                MaxTokens = _configService.GetProviderSetting(_alias, "maxTokens", AIConstants.Defaults.MaxTokens),
-                Temperature = _configService.GetProviderSetting(_alias, "temperature", AIConstants.Defaults.Temperature),
-                FrequencyPenalty = _configService.GetProviderSetting(_alias, "frequencyPenalty", AIConstants.Defaults.FrequencyPenalty),
-                PresencePenalty = _configService.GetProviderSetting(_alias, "presencePenalty", AIConstants.Defaults.PresencePenalty),
-                NucleusSamplingFactor = _configService.GetProviderSetting(_alias, "nucleusSamplingFactor", AIConstants.Defaults.NucleusSamplingFactor),
+                APIKey = await _configService.GetProviderSettingAsync(_alias, "apiKey", string.Empty),
+                Translator = await _configService.GetProviderSettingAsync(_alias, "translator", string.Empty),
+                Model = await _configService.GetProviderSettingAsync(_alias, "model", AIConstants.Defaults.Model),
+                AsHtml = await _configService.GetProviderSettingAsync(_alias, "asHtml", true),
+                Prompt = await _configService.GetProviderSettingAsync(_alias, "prompt", AIConstants.Defaults.Prompt),
+                SystemPrompt = await _configService.GetProviderSettingAsync(_alias, "systemPrompt", AIConstants.Defaults.Prompt),
+                Split = await _configService.GetProviderSettingAsync(_alias, "split", true),
+                Throttle = await _configService.GetProviderSettingAsync(_alias, "throttle", AIConstants.Defaults.Throttle),
+                UseTranslationMemory = await _configService.GetProviderSettingAsync(_alias, "useTranslationMemory", false),
+                MaxTokens = await _configService.GetProviderSettingAsync(_alias, "maxTokens", AIConstants.Defaults.MaxTokens),
+                Temperature = await _configService.GetProviderSettingAsync(_alias, "temperature", AIConstants.Defaults.Temperature),
+                FrequencyPenalty = await _configService.GetProviderSettingAsync(_alias, "frequencyPenalty", AIConstants.Defaults.FrequencyPenalty),
+                PresencePenalty = await _configService.GetProviderSettingAsync(_alias, "presencePenalty", AIConstants.Defaults.PresencePenalty),
+                NucleusSamplingFactor = await _configService.GetProviderSettingAsync(_alias, "nucleusSamplingFactor", AIConstants.Defaults.NucleusSamplingFactor),
                 //AdditionalProperties = _configService.GetProviderSetting(_alias, "additionalProperties"),
-                AllowMultipleToolCalls = _configService.GetProviderSetting<bool?>(_alias, "allowMultipleToolCalls", null),
-                ConversationId = _configService.GetProviderSetting(_alias, "conversationId", string.Empty),
-                Instructions = _configService.GetProviderSetting(_alias, "instructions", string.Empty),
-                Seed = _configService.GetProviderSetting<long?>(_alias, "seed", null),
-                StopSequences = _configService.GetProviderSetting<IList<string>?>(_alias, "stopSequences", null),
-                ToolMode = _configService.GetProviderSetting<ChatToolMode?>(_alias, "toolMode", null),
-                Tools = _configService.GetProviderSetting<IList<AITool>?>(_alias, "tools", null),
-                TopK = _configService.GetProviderSetting(_alias, "topK", 50),
+                AllowMultipleToolCalls = await _configService.GetProviderSettingAsync<bool?>(_alias, "allowMultipleToolCalls", null),
+                ConversationId = await _configService.GetProviderSettingAsync(_alias, "conversationId", string.Empty),
+                Instructions = await _configService.GetProviderSettingAsync(_alias, "instructions", string.Empty),
+                Seed = await _configService.GetProviderSettingAsync<long?>(_alias, "seed", null),
+                StopSequences = await _configService.GetProviderSettingAsync<IList<string>?>(_alias, "stopSequences", null),
+                ToolMode = await _configService.GetProviderSettingAsync<ChatToolMode?>(_alias, "toolMode", null),
+                Tools = await _configService.GetProviderSettingAsync<IList<AITool>?>(_alias, "tools", null),
+                TopK = await _configService.GetProviderSettingAsync(_alias, "topK", 50),
+                URL = await _configService.GetProviderSettingAsync(_alias, "url", string.Empty)
             };
+
+            _options.Additional = await LoadAdditional();
 
             return _options;
         }
-        private Dictionary<string, string> LoadMappings()
+
+
+
+
+        private async Task<Dictionary<string, object?>> LoadAdditional()
         {
             try
             {
-                var mappings = _configService.GetProviderSetting(_alias, "mappedCultures", "")
-                    .ToDelimitedList();
+                var settings = await _configService.GetProviderSettingAsync(_alias, "additional", "");
 
-                var lanugageMappings = new Dictionary<string, string>();
+                return settings.DeserializeJson<Dictionary<string, object?>>() ?? [];
 
-                foreach (var mapping in mappings)
-                {
-                    var split = mapping.Split(new char[] { '=' });
-                    if (split.Length == 2)
-                    {
-                        lanugageMappings[split[0].ToLower()] = split[1];
-                    }
-                }
 
-                return lanugageMappings;
+                //var additionalSettings = new Dictionary<string, object?>();
+
+                //foreach (var setting in settings)
+                //{
+                //    var split = setting.Split(new char[] { '=' });
+                //    if (split.Length == 2)
+                //    {
+                //        additionalSettings[split[0].ToLower()] = split[1];
+                //    }
+                //}
+
+                //return additionalSettings;
             }
             catch // (Exception ex)
             {
                 // _logger.LogWarning("Failed to read mappings check they are in the right format: {0}", ex.Message);
             }
 
-            return new Dictionary<string, string>();
+            return [];
         }
     }
 }

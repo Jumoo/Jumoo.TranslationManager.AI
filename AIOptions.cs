@@ -44,7 +44,7 @@ public static class AIOptionsExtensions
         {
             var attempt = result.TryConvertTo<TObject>();
             if (attempt.Success)
-                return attempt.Result;
+                return attempt.Result ?? defaultValue;
         }
 
         return defaultValue;

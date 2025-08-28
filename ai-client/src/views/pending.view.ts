@@ -44,27 +44,29 @@ export class TranslationAiConnectorPendingElement
 
   renderSettings(settings: AiSettings) {
     return html` <jumoo-tm-ui-box headline="Settings">
-      <div class="setting">
-        <div class="title">Translator</div>
-        <div class="value">
-          ${settings?.translator?.length > 0 ? settings.translator : "Error"}
+      <div class="settings-box">
+        <div class="setting">
+          <div class="title">Translator</div>
+          <div class="value">
+            ${settings?.translator?.length > 0 ? settings.translator : "Error"}
+          </div>
         </div>
-      </div>
-      <div class="setting">
-        <div class="title">Throttle</div>
-        <div class="value">${settings?.throttle ?? "250"}</div>
-      </div>
-      <div class="setting">
-        <div class="title">Split</div>
-        <div class="value">${settings?.split ?? "false"}</div>
-      </div>
-      <div class="setting">
-        <div class="title">As Html</div>
-        <div class="value">${settings?.asHtml ?? "false"}</div>
-      </div>
-      <div class="setting">
-        <div class="title">Translation Memory</div>
-        <div class="value">${settings?.useTranslationMemory}</div>
+        <div class="setting">
+          <div class="title">Throttle</div>
+          <div class="value">${settings?.throttle ?? "250"}</div>
+        </div>
+        <div class="setting">
+          <div class="title">Split</div>
+          <div class="value">${settings?.split ?? "false"}</div>
+        </div>
+        <div class="setting">
+          <div class="title">As Html</div>
+          <div class="value">${settings?.asHtml ?? "false"}</div>
+        </div>
+        <div class="setting">
+          <div class="title">Translation Memory</div>
+          <div class="value">${settings?.useTranslationMemory}</div>
+        </div>
       </div>
     </jumoo-tm-ui-box>`;
   }
@@ -74,55 +76,56 @@ export class TranslationAiConnectorPendingElement
       headline="Advanced Settings"
       .collapsable=${true}
       .expanded=${false}
-    >
-      <div class="setting">
-        <div class="title">Model</div>
-        <div class="value">${settings?.model ?? "gpt-4o-mini"}</div>
-      </div>
-      <div class="setting">
-        <div class="title">Max Tokens</div>
-        <div class="value">${settings?.maxTokens ?? "500"}</div>
-      </div>
-      <div class="setting">
-        <div class="title">Temperature</div>
-        <div class="value">${settings?.temperature ?? "1"}</div>
-      </div>
-      <div class="setting">
-        <div class="title">Frequency Penalty</div>
-        <div class="value">${settings?.frequencyPenalty ?? "0"}</div>
-      </div>
-      <div class="setting">
-        <div class="title">Presence Penalty</div>
-        <div class="value">${settings?.presencePenalty ?? "0"}</div>
-      </div>
-      <div class="setting">
-        <div class="title">Nucleus Sampling</div>
-        <div class="value">${settings?.nucleusSampling ?? "1"}</div>
-      </div>
-      <div class="setting">
-        <div class="title">Conversation ID</div>
-        <div class="value">
-          ${settings?.conversationId?.length > 0
-            ? settings.conversationId
-            : "(None)"}
+      ><div class="settings-box">
+        <div class="setting">
+          <div class="title">Model</div>
+          <div class="value">${settings?.model ?? "gpt-4o-mini"}</div>
         </div>
-      </div>
-      <div class="setting">
-        <div class="title">Instructions</div>
-        <div class="value">
-          ${settings?.instructions?.length > 0
-            ? settings.instructions
-            : "(None)"}
+        <div class="setting">
+          <div class="title">Max Tokens</div>
+          <div class="value">${settings?.maxTokens ?? "500"}</div>
         </div>
-      </div>
-      <div class="setting">
-        <div class="title">TopK</div>
-        <div class="value">${settings?.topK ?? "1"}</div>
-      </div>
-      <div class="setting">
-        <div class="title">Seed</div>
-        <div class="value">
-          ${settings?.seed?.length > 0 ? settings.seed : "(Random)"}
+        <div class="setting">
+          <div class="title">Temperature</div>
+          <div class="value">${settings?.temperature ?? "1"}</div>
+        </div>
+        <div class="setting">
+          <div class="title">Frequency Penalty</div>
+          <div class="value">${settings?.frequencyPenalty ?? "0"}</div>
+        </div>
+        <div class="setting">
+          <div class="title">Presence Penalty</div>
+          <div class="value">${settings?.presencePenalty ?? "0"}</div>
+        </div>
+        <div class="setting">
+          <div class="title">Nucleus Sampling</div>
+          <div class="value">${settings?.nucleusSampling ?? "1"}</div>
+        </div>
+        <div class="setting">
+          <div class="title">Conversation ID</div>
+          <div class="value">
+            ${settings?.conversationId?.length > 0
+              ? settings.conversationId
+              : "(None)"}
+          </div>
+        </div>
+        <div class="setting">
+          <div class="title">Instructions</div>
+          <div class="value">
+            ${settings?.instructions?.length > 0
+              ? settings.instructions
+              : "(None)"}
+          </div>
+        </div>
+        <div class="setting">
+          <div class="title">TopK</div>
+          <div class="value">${settings?.topK ?? "1"}</div>
+        </div>
+        <div class="setting">
+          <div class="title">Seed</div>
+          <div class="value">
+            ${settings?.seed?.length > 0 ? settings.seed : "(Random)"}
+          </div>
         </div>
       </div>
     </jumoo-tm-ui-box>`;
@@ -144,18 +147,19 @@ export class TranslationAiConnectorPendingElement
       margin: var(--uui-size-space-5) 0;
     }
 
-    .expanded {
-      --uui-box-default-padding: 0;
-    }
-
     .title {
       font-weight: bold;
       min-width: 150px;
       text-align: right;
     }
 
-    uui-box .headline {
-      cursor: pointer;
+    uui-box,
+    jumoo-tm-ui-box {
+      --uui-box-default-padding: 0 var(--uui-size-space-5);
+    }
+
+    .settings-box {
+      padding: var(--uui-size-space-3);
     }
 
     .title::after {

@@ -37,6 +37,7 @@ export class TranslationAiConnectorConfigElement
   async connectedCallback() {
     super.connectedCallback();
 
+    // @ts-expect-error
     this.translators = (await AiTranslate.aiTranslateTranslators()).data;
     console.log("T", this.translators);
 
@@ -445,7 +446,8 @@ export class TranslationAiConnectorConfigElement
 
     uui-box,
     jumoo-tm-ui-box {
-      --uui-box-default-padding: 0 var(--uui-size-space-5);
+      --uui-box-default-padding: 0 var(--uui-size-space-5)
+        var(--uui-size-space-1);
     }
 
     .left,

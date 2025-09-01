@@ -1,0 +1,29 @@
+﻿<div ng-controller="translate.AiSubmittedController as pvm">
+    <umb-box>
+        <umb-box-header title-key="tmAi_submitted-title">
+        </umb-box-header>
+        <umb-box-content>
+
+            <umb-control-group label="Tokens used:">
+                <div>
+                    {{ pvm.properties.tokensUsed }}
+                    <small>
+                        Input/Output :
+                        {{ pvm.properties.inputTokens }} / {{ pvm.properties.outputTokens }}
+                    </small>
+                </div>
+            </umb-control-group>
+
+            <umb-control-group label="Model"
+                               ng-if="pvm.properties.modelUsed.length > 0">
+                <div>{{ pvm.properties.modelUsed }}</div>
+            </umb-control-group>
+
+            <umb-control-group label="Message"
+                               ng-if="pvm.properties.extraMessage.length > 0">
+                <div>{{ pvm.properties.extraMessage }}</div>
+            </umb-control-group>
+        </umb-box-content>
+    </umb-box>
+
+</div>

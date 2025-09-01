@@ -19,7 +19,7 @@
                                     name="Translator"
                                     ng-model="vm.settings.translator"
                                     ng-change="pvm.changeTranslator()">
-                                <option value="{{value.Alias}}" ng-repeat="(key, value) in pvm.translators">{{value.Name}}</option>
+                                <option value="{{value.alias}}" ng-repeat="(key, value) in pvm.translators">{{value.name}}</option>
                             </select>
                         </umb-control-group>
 
@@ -108,18 +108,18 @@
                     </umb-control-group>
 
                     <umb-control-group label="@tmAi_conversationId" description="@tmAi_conversationId-desc">
-                        <input type="number" ng-model="vm.settings.conversationId" class="umb-property-editor umb-textstring textstring"
-                               placeholder="1" />
+                        <input type="text" ng-model="vm.settings.conversationId" class="umb-property-editor umb-textstring textstring"
+                                />
                     </umb-control-group>
 
                     <umb-control-group label="@tmAi_instructions" description="@tmAi_instructions-desc">
-                        <input type="number" ng-model="vm.settings.instructions" class="umb-property-editor umb-textstring textstring"
-                               placeholder="1" />
+                        <input type="text" ng-model="vm.settings.instructions" class="umb-property-editor umb-textstring textstring"
+                                />
                     </umb-control-group>
 
                     <umb-control-group label="@tmAi_seed" description="@tmAi_seed-desc">
-                        <input type="number" ng-model="vm.settings.seed" class="umb-property-editor umb-textstring textstring"
-                               placeholder="1" />
+                        <input type="text" ng-model="vm.settings.seed" class="umb-property-editor umb-textstring textstring"
+                               />
                     </umb-control-group>
 
                     <umb-control-group label="@tmAi_topK" description="@tmAi_topK-desc">
@@ -165,9 +165,6 @@
                               watch-tokens="true"></localize>
                 </umb-box-content>
             </umb-box>
-
-            <pre>{{vm.settings | json}}</pre>
-
         </div>
     </div>
 </div>

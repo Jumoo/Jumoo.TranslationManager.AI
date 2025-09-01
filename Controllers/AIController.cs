@@ -3,6 +3,7 @@ using Jumoo.TranslationManager.AI.Translators;
 
 using Microsoft.AspNetCore.Mvc;
 
+using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Web.BackOffice.Controllers;
 using Umbraco.Cms.Web.Common.Attributes;
 
@@ -30,6 +31,9 @@ public class AIController : UmbracoAuthorizedApiController
             Name = x.Name,
         });
     }
-}
 
+    [HttpGet]
+    public AIConnectorDefaults GetDefaults()
+        => new AIConnectorDefaults();
+}
 #endif

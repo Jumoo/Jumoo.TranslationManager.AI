@@ -40,6 +40,7 @@
 	</area>
 	<area alias="tmAi">
 		<key alias="name">AI Connector</key>
+		<key alias="advanced">Advanced settings</key>
 		<key alias="translator">AI Library</key>
 		<key alias="translator-desc">Choose which API Library to use when sending translations</key>
 
@@ -85,6 +86,7 @@
 		]]>
 		</key>
 
+		<key alias="submitted-title">AI Connector</key>
 
 		<key alias="config-advanced">Advanced AI Settings</key>
 		<key alias="config-advanced-desc">Control the fine detail of the Ai request</key>
@@ -119,5 +121,18 @@
 
 		<key alias="service">OpenAi Library</key>
 		<key alias="service-desc">Choose which API Library to use when sending translations</key>
+		
+		<key alias="conversationId">Conversation Id</key>
+		<key alias="conversationId-desc">Optional conversation id to keep context between calls</key>
+
+		<key alias="instructions">Instructions</key>
+		<key alias="instructions-desc"></key>
+
+		<key alias="seed">Seed</key>
+		<key alias="seed-desc"></key>
+
+		<key alias="topK">TopK</key>
+		<key alias="topK-desc"></key>
+		
 	</area>
 </language>

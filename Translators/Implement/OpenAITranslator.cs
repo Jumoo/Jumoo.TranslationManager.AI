@@ -72,5 +72,11 @@ namespace Jumoo.TranslationManager.AI.Translators.Implement
             };
 
         }
+
+        public bool IsValid(AIOptions options)
+        {
+            var apiStringKey = options.GetAdditionalOption<string?>("openAiKey", null);
+            return string.IsNullOrWhiteSpace(apiStringKey) is false;
+        }
     }
 }

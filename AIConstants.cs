@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Jumoo.TranslationManager.AI.Translators.Implement;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +12,10 @@ namespace Jumoo.TranslationManager.AI
     {
         public class Defaults
         {
+            public const string Translator = "OpenAiTranslator";
             public const int Throttle = 250;
+            public const bool Split = true;
+            public const bool AsHtml = true;
             public const string Model = "gpt-4o-mini";
             public const string Prompt = "You will be provided with sentences in {sourceLang}, and your task is to translate it into {targetLang}. If you cannot translate something, leave it as it is. Translate all the text below: \n\r{text}";
             public const int MaxTokens = 500;
@@ -44,7 +49,7 @@ namespace Jumoo.TranslationManager.AI
             public const string Config = AIConstants.Connector.PluginPath + "config.html";
             public const string Pending = AIConstants.Connector.PluginPath + "pending.html";
             public const string Submitted = AIConstants.Connector.PluginPath + "submitted.html";
-            public const string Approved = AIConstants.Connector.PluginPath + "approved.html";
+            public const string Approved = AIConstants.Connector.PluginPath + "submitted.html";
 #endif
         }
     }

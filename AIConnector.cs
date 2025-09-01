@@ -52,7 +52,12 @@ public class AIConnector : ITranslationProvider
     };
 
     public bool Active()
-        => !string.IsNullOrWhiteSpace(_options.Translator);
+    {
+        if (string.IsNullOrWhiteSpace(_options.Translator)) 
+            return false;
+
+        return _translationService.IsTranslatorValid(_options.Translator, _options);
+    }
 
     [MemberNotNull(nameof(_options))]
     public void Reload()

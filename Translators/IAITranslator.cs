@@ -1,4 +1,7 @@
 ﻿using Jumoo.TranslationManager.AI.Models;
+
+using Microsoft.Extensions.ObjectPool;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +14,8 @@ public interface IAITranslator
 {
     string Alias { get; }
     string Name { get; }
+
+    bool IsValid(AIOptions options);
 
     Task Initialize(AITranslatorRequestOptions options);
 

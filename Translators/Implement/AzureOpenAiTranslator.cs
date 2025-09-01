@@ -69,5 +69,15 @@ public class AzureOpenAiTranslator : IAITranslator
 
         };
     }
+
+    public bool IsValid(AIOptions options)
+    {
+        var apiStringKey = options.GetAdditionalOption<string?>("azureKey", null);
+        if (string.IsNullOrEmpty(options.URL) 
+            || string.IsNullOrWhiteSpace(apiStringKey))
+            return false;
+
+        return true;
+    }
 }
 

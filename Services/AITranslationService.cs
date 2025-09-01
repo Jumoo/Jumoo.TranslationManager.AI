@@ -31,6 +31,14 @@ namespace Jumoo.TranslationManager.AI.Services
             _messageService = messageService;
         }
 
+        public bool IsTranslatorValid(string translatorAlias, AIOptions options)
+        {
+            var translator = _translators.GetTranslator(translatorAlias);
+            if (!translator?.IsValid(options) ?? true) return false;
+
+            return true;
+        }
+
         public async Task<AITranslationResult> TranslateNodeAsync(TranslationNode node, string sourceLang, string targetLang, AIOptions options)
         {
             _logger.LogDebug("Translating: {nodeId}", node.MasterNodeId);

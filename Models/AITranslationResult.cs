@@ -2,6 +2,12 @@
 
 namespace Jumoo.TranslationManager.AI.Models;
 
+#if UMB_13_OR_LESS
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+
+[JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
+#endif
 public class AITranslationResult
 {
     public long TokensUsed { get; set; }
@@ -20,6 +26,9 @@ public class AITranslationResult
     }
 }
 
+#if UMB_13_OR_LESS
+[JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
+#endif
 public class AITranslationValueResult<TResult>
 {
     public TResult? Value { get; set; } = default;

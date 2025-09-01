@@ -21,7 +21,13 @@ namespace Jumoo.TranslationManager.AI.Translators.Implement
 
         public Task Initialize(AITranslatorRequestOptions options)
         {
-            AzureKeyCredential credential = new(options.Options.APIKey);
+
+            var apiStringKey = options.Options.GetAdditionalOption<string?>("githubKey", null);
+            if (string.IsNullOrWhiteSpace(apiStringKey))
+                throw new Exception("No api key");
+
+
+            AzureKeyCredential credential = new(apiStringKey);
             Uri modelEndpoint = new("https://models.inference.ai.azure.com");
 
             client = new ChatCompletionsClient(modelEndpoint, credential).AsIChatClient(options.Options.Model);
@@ -74,6 +80,12 @@ namespace Jumoo.TranslationManager.AI.Translators.Implement
                     OutputTokens = result.Usage?.OutputTokenCount ?? 0,
                 }
             };
+        }
+
+        public bool IsValid(AIOptions options)
+        {
+            var apiStringKey = options.GetAdditionalOption<string?>("githubKey", null);
+            return string.IsNullOrWhiteSpace(apiStringKey) is false;
         }
     }
 }

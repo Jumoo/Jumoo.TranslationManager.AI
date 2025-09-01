@@ -11,11 +11,7 @@
         pvm.$onInit = function () {
 
             loadServices();
-
-            if ($scope.vm != undefined && $scope.vm.settings != undefined) {
-                prepSettings($scope.vm.settings);
-            }
-
+            loadDefaults();
 
             $scope.$watch('vm.settings', function (newValue) {
 
@@ -43,6 +39,18 @@
                 });
         }
 
+        function loadDefaults() {
+            translationAiService.getDefaults()
+                .then(function (result) {
+                    pvm.defaults = result.data;
+
+                    if ($scope.vm != undefined && $scope.vm.settings != undefined) {
+                        prepSettings($scope.vm.settings);
+                    }
+                });
+        }
+
+
         function changeTranslator() {
             if (!$scope.vm.settings?.translator) return;
             pvm.translatorView = `/App_Plugins/Translations.Ai/legacy/translator/${$scope.vm.settings.translator}.html`;
@@ -52,42 +60,56 @@
 
         function prepSettings(newValue) {
 
+            if (newValue.translator === undefined) {
+                newValue.translator = pvm.defaults.translator ?? 'OpenAiTranslator';
+            }
+
             if (newValue.apiKey === undefined && newValue.key != undefined) {
                 newValue.apiKey = newValue.key;
             }
 
             if (newValue.model === undefined) {
-                newValue.model = 'gpt-4o';
+                newValue.model = pvm.defaults.model ?? 'gpt-4o';
+            }
+
+            if (newValue.throttle === undefined) {
+                newValue.throttle = pvm.defaults.throttle ?? 0;
+            }
+
+            if (newValue.split === undefined) {
+                newValue.split = pvm.defaults.split ?? false;
+            }
+
+            if (newValue.asHtml === undefined) {
+                newValue.asHtml = pvm.defaults.asHtml ?? true;
             }
 
             if (newValue.maxTokens === undefined) {
-                newValue.maxTokens = 1024;
+                newValue.maxTokens = pvm.defaults.maxTokens == 0 ? pvm.defaults.maxTokens : 1024;
             }
 
             if (newValue.temperature === undefined) {
-                newValue.temperature = 1;
+                newValue.temperature = pvm.defaults.temperature ?? 1;
             }
 
             if (newValue.frequencyPenalty === undefined) {
-                newValue.frequencyPenalty = 0.0;
+                newValue.frequencyPenalty = pvm.defaults.frequencyPenalty ?? 0.0;
             }
 
             if (newValue.presencePenalty === undefined) {
-                newValue.presencePenalty = 0.0;
+                newValue.presencePenalty = pvm.defaults.presencePenalty ?? 0.0;
             }
 
             if (newValue.nucleusSamplingFactor === undefined) {
-                newValue.nucleusSamplingFactor = 1;
+                newValue.nucleusSamplingFactor = pvm.defaults.nucleusSamplingFactor ?? 1;
             }
 
             if (newValue.prompt === undefined || newValue.prompt.length == 0) {
-                console.log('empty prompt');
-                newValue.prompt = `Translate this {sourceLang} text into {targetLang}\r\n\r\n{text} `;
+                newValue.prompt =
+                    pvm.defaults.prompt ?? `Translate this {sourceLang} text into {targetLang}\r\n\r\n{text} `;
             }
 
-            if (newValue.systemPrompt == undefined || newValue.systemPrompt.length == 0) {
-                newValue.systemPrompt = "You will be provided with sentences in {sourceLang}, and your task is to translate it into {targetLang}";
-            }
+            changeTranslator();
 
         }
 

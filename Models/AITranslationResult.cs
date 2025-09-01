@@ -1,5 +1,4 @@
 ﻿using Jumoo.TranslationManager.Core.Models;
-using Umbraco.Cms.Api.Management.Controllers.Document;
 
 namespace Jumoo.TranslationManager.AI.Models;
 

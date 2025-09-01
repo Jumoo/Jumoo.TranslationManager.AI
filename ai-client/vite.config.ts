@@ -10,7 +10,7 @@ export default defineConfig({
       formats: ["es"],
       fileName: "AI",
     },
-    outDir: "../wwwroot/App_Plugins/Translations.AI",
+    outDir: "../wwwroot/App_Plugins/Translations.AI/modern",
     emptyOutDir: true,
     sourcemap: true,
     rollupOptions: {

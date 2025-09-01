@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
-		<TargetFramework>net9.0</TargetFramework>
+		<TargetFrameworks>net8.0;net9.0</TargetFrameworks>
 		<StaticWebAssetBasePath>/</StaticWebAssetBasePath>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
@@ -33,23 +33,24 @@
 		<None Include="readme.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
-
-	<ItemGroup>
-		<PackageReference Include="Azure.AI.OpenAI" Version="2.1.0" />
+	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
 		<PackageReference Include="Jumoo.TranslationManager.Core" Version="16.1.0" />
 		<PackageReference Include="Jumoo.TranslationManager.Serializers" Version="16.1.0" />
 		<PackageReference Include="Jumoo.TranslationManager.Connectors" Version="16.1.0" />
 		<PackageReference Include="Umbraco.Cms.Api.Management" Version="16.0.0" />
 	</ItemGroup>
 
+	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+		<PackageReference Include="Jumoo.TranslationManager.Core" Version="13.*" />
+		<PackageReference Include="Jumoo.TranslationManager.Serializers" Version="13.*" />
+		<PackageReference Include="Umbraco.Cms.Web.BackOffice" version="13.*" />
+	</ItemGroup>
+
 	<ItemGroup>
+		<PackageReference Include="Azure.AI.OpenAI" Version="2.1.0" />
 		<PackageReference Include="Azure.AI.Inference" Version="1.0.0-beta.5" />
 		<PackageReference Include="Microsoft.Extensions.AI" Version="9.8.0" />
 		<PackageReference Include="Microsoft.Extensions.AI.AzureAIInference" Version="9.8.0-preview.1.25412.6" />
 		<PackageReference Include="Microsoft.Extensions.AI.OpenAI" Version="9.8.0-preview.1.25412.6" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="wwwroot\" />
 	</ItemGroup>
 </Project>

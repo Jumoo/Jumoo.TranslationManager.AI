@@ -19,5 +19,33 @@ namespace Jumoo.TranslationManager.AI
             public const int PresencePenalty = 0;
             public const int NucleusSamplingFactor = 1;
         }
+
+        public class Connector
+        {
+            public const string Name = "AI Connector";
+            public const string Alias = "AIConnector";
+            public const string Version = "16.0.0";
+
+#if UMB_16_OR_GREATER
+            public const string PluginPath = "/App_Plugins/Translations.AI/modern/";
+#else
+            public const string PluginPath = "/App_Plugins/Translations.AI/legacy/";
+#endif
+        }
+
+        public class Views
+        {
+#if UMB_16_OR_GREATER
+            public const string Config = "jumoo-ai-config";
+            public const string Pending = "jumoo-ai-pending";
+            public const string Submitted = "jumoo-ai-submitted";
+            public const string Approved = "jumoo-ai-submitted";
+#else
+            public const string Config = AIConstants.Connector.PluginPath + "config.html";
+            public const string Pending = AIConstants.Connector.PluginPath + "pending.html";
+            public const string Submitted = AIConstants.Connector.PluginPath + "submitted.html";
+            public const string Approved = AIConstants.Connector.PluginPath + "approved.html";
+#endif
+        }
     }
 }

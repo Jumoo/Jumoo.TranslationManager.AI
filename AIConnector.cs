@@ -1,26 +1,24 @@
-﻿using Jumoo.Json;
+﻿
+using Jumoo.TranslationManager.AI.Extensions;
 using Jumoo.TranslationManager.AI.Models;
 using Jumoo.TranslationManager.AI.Services;
-using Jumoo.TranslationManager.Core.Configuration;
 using Jumoo.TranslationManager.Core.Models;
 using Jumoo.TranslationManager.Core.Providers;
+
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
+
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using Umbraco.Cms.Core;
 
 namespace Jumoo.TranslationManager.AI;
 
 public class AIConnector : ITranslationProvider
 {
-    public static string ConnectorName = "AI Connector";
-    public static string ConnectorAlias = "AIConnector";
+    public static string ConnectorName = AIConstants.Connector.Name;
+    public static string ConnectorAlias = AIConstants.Connector.Alias;
     public static string ConnectorVersion = typeof(AIConnector).Assembly.GetName()?.Version?.ToString(3) ?? "16.0.0";
-    public static string ConnectorPluginPath = "/App_Plugins/Translations.AI/";
+    public static string ConnectorPluginPath = AIConstants.Connector.PluginPath;
 
 
     private readonly AIConfigService _configService;
@@ -47,17 +45,14 @@ public class AIConnector : ITranslationProvider
 
     public TranslationProviderViews Views => new TranslationProviderViews()
     {
-        Config = "jumoo-ai-config",
-        Pending = "jumoo-ai-pending",
-        Submitted = "jumoo-ai-submitted",
-        Approved = "jumoo-ai-submitted",
+        Config = AIConstants.Views.Config,
+        Pending = AIConstants.Views.Pending,
+        Submitted = AIConstants.Views.Submitted,
+        Approved = AIConstants.Views.Approved
     };
 
     public bool Active()
-        => !string.IsNullOrWhiteSpace(_options.APIKey);
-
-
-
+        => !string.IsNullOrWhiteSpace(_options.Translator);
 
     [MemberNotNull(nameof(_options))]
     public void Reload()
@@ -89,7 +84,7 @@ public class AIConnector : ITranslationProvider
             }
             job.Status = JobStatus.Received;
             job.ProviderStatus = $"Translated via {_options.Translator}";
-            job.ProviderProperties = results.SerializeJsonString() ?? "";
+            job.ProviderProperties = results.AISerializeJsonString() ?? "";
 
 
             return Attempt.Succeed(job);

@@ -1,4 +1,4 @@
-﻿using Jumoo.Json;
+﻿using Jumoo.TranslationManager.AI.Extensions;
 using Jumoo.TranslationManager.Core.Configuration;
 using Microsoft.Extensions.AI;
 using System;
@@ -26,30 +26,30 @@ namespace Jumoo.TranslationManager.AI.Services
         {
             _options = new AIOptions
             {
-                APIKey = await _configService.GetProviderSettingAsync(_alias, "apiKey", string.Empty),
-                Translator = await _configService.GetProviderSettingAsync(_alias, "translator", string.Empty),
-                Model = await _configService.GetProviderSettingAsync(_alias, "model", AIConstants.Defaults.Model),
-                AsHtml = await _configService.GetProviderSettingAsync(_alias, "asHtml", true),
-                Prompt = await _configService.GetProviderSettingAsync(_alias, "prompt", AIConstants.Defaults.Prompt),
-                SystemPrompt = await _configService.GetProviderSettingAsync(_alias, "systemPrompt", AIConstants.Defaults.Prompt),
-                Split = await _configService.GetProviderSettingAsync(_alias, "split", true),
-                Throttle = await _configService.GetProviderSettingAsync(_alias, "throttle", AIConstants.Defaults.Throttle),
-                UseTranslationMemory = await _configService.GetProviderSettingAsync(_alias, "useTranslationMemory", false),
-                MaxTokens = await _configService.GetProviderSettingAsync(_alias, "maxTokens", AIConstants.Defaults.MaxTokens),
-                Temperature = await _configService.GetProviderSettingAsync(_alias, "temperature", AIConstants.Defaults.Temperature),
-                FrequencyPenalty = await _configService.GetProviderSettingAsync(_alias, "frequencyPenalty", AIConstants.Defaults.FrequencyPenalty),
-                PresencePenalty = await _configService.GetProviderSettingAsync(_alias, "presencePenalty", AIConstants.Defaults.PresencePenalty),
-                NucleusSamplingFactor = await _configService.GetProviderSettingAsync(_alias, "nucleusSamplingFactor", AIConstants.Defaults.NucleusSamplingFactor),
+                APIKey = await _configService.AIGetProviderSettingAsync(_alias, "apiKey", string.Empty),
+                Translator = await _configService.AIGetProviderSettingAsync(_alias, "translator", string.Empty),
+                Model = await _configService.AIGetProviderSettingAsync(_alias, "model", AIConstants.Defaults.Model),
+                AsHtml = await _configService.AIGetProviderSettingAsync(_alias, "asHtml", true),
+                Prompt = await _configService.AIGetProviderSettingAsync(_alias, "prompt", AIConstants.Defaults.Prompt),
+                SystemPrompt = await _configService.AIGetProviderSettingAsync(_alias, "systemPrompt", AIConstants.Defaults.Prompt),
+                Split = await _configService.AIGetProviderSettingAsync(_alias, "split", true),
+                Throttle = await _configService.AIGetProviderSettingAsync(_alias, "throttle", AIConstants.Defaults.Throttle),
+                UseTranslationMemory = await _configService.AIGetProviderSettingAsync(_alias, "useTranslationMemory", false),
+                MaxTokens = await _configService.AIGetProviderSettingAsync(_alias, "maxTokens", AIConstants.Defaults.MaxTokens),
+                Temperature = await _configService.AIGetProviderSettingAsync(_alias, "temperature", AIConstants.Defaults.Temperature),
+                FrequencyPenalty = await _configService.AIGetProviderSettingAsync(_alias, "frequencyPenalty", AIConstants.Defaults.FrequencyPenalty),
+                PresencePenalty = await _configService.AIGetProviderSettingAsync(_alias, "presencePenalty", AIConstants.Defaults.PresencePenalty),
+                NucleusSamplingFactor = await _configService.AIGetProviderSettingAsync(_alias, "nucleusSamplingFactor", AIConstants.Defaults.NucleusSamplingFactor),
                 //AdditionalProperties = _configService.GetProviderSetting(_alias, "additionalProperties"),
-                AllowMultipleToolCalls = await _configService.GetProviderSettingAsync<bool?>(_alias, "allowMultipleToolCalls", null),
-                ConversationId = await _configService.GetProviderSettingAsync(_alias, "conversationId", string.Empty),
-                Instructions = await _configService.GetProviderSettingAsync(_alias, "instructions", string.Empty),
-                Seed = await _configService.GetProviderSettingAsync<long?>(_alias, "seed", null),
-                StopSequences = await _configService.GetProviderSettingAsync<IList<string>?>(_alias, "stopSequences", null),
-                ToolMode = await _configService.GetProviderSettingAsync<ChatToolMode?>(_alias, "toolMode", null),
-                Tools = await _configService.GetProviderSettingAsync<IList<AITool>?>(_alias, "tools", null),
-                TopK = await _configService.GetProviderSettingAsync(_alias, "topK", 50),
-                URL = await _configService.GetProviderSettingAsync(_alias, "url", string.Empty)
+                AllowMultipleToolCalls = await _configService.AIGetProviderSettingAsync<bool?>(_alias, "allowMultipleToolCalls", null),
+                ConversationId = await _configService.AIGetProviderSettingAsync(_alias, "conversationId", string.Empty),
+                Instructions = await _configService.AIGetProviderSettingAsync(_alias, "instructions", string.Empty),
+                Seed = await _configService.AIGetProviderSettingAsync<long?>(_alias, "seed", null),
+                StopSequences = await _configService.AIGetProviderSettingAsync<IList<string>?>(_alias, "stopSequences", null),
+                ToolMode = await _configService.AIGetProviderSettingAsync<ChatToolMode?>(_alias, "toolMode", null),
+                Tools = await _configService.AIGetProviderSettingAsync<IList<AITool>?>(_alias, "tools", null),
+                TopK = await _configService.AIGetProviderSettingAsync(_alias, "topK", 50),
+                URL = await _configService.AIGetProviderSettingAsync(_alias, "url", string.Empty)
             };
 
             _options.Additional = await LoadAdditional();
@@ -64,9 +64,9 @@ namespace Jumoo.TranslationManager.AI.Services
         {
             try
             {
-                var settings = await _configService.GetProviderSettingAsync(_alias, "additional", "");
+                var settings = await _configService.AIGetProviderSettingAsync(_alias, "additional", "");
 
-                return settings.DeserializeJson<Dictionary<string, object?>>() ?? [];
+                return settings.AIDeserializeJson<Dictionary<string, object?>>() ?? [];
 
 
                 //var additionalSettings = new Dictionary<string, object?>();

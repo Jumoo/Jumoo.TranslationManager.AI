@@ -1,14 +1,10 @@
 ﻿using Azure.AI.OpenAI;
-using Jumoo.Json;
+
 using Jumoo.TranslationManager.AI.Models;
+
 using OpenAI.Chat;
-using System;
+
 using System.ClientModel;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Markup;
 
 namespace Jumoo.TranslationManager.AI.Translators.Implement;
 

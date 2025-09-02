@@ -38,6 +38,11 @@ namespace Jumoo.TranslationManager.AI.Controllers
                 Name = x.Name,
             }));
         }
+
+        [HttpGet("Defaults")]
+        [ProducesResponseType<AIConnectorDefaults>(StatusCodes.Status200OK)]
+        public IActionResult GetDefaults()
+            => Ok(new AIConnectorDefaults());
     }
 }
 #endif

@@ -2,7 +2,7 @@ import { defineConfig } from "@hey-api/openapi-ts";
 import { defaultPlugins } from "@hey-api/openapi-ts";
 
 export default defineConfig({
-  input: "http://localhost:11591/umbraco/swagger/tm-ai/swagger.json",
+  input: "http://localhost:46796/umbraco/swagger/tm-ai/swagger.json",
   output: {
     format: "prettier",
     path: "src/api",

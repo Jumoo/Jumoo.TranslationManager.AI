@@ -64,7 +64,7 @@ public class AzureOpenAiTranslator : IAITranslator
             AIResult = new AITranslationResult
             {
                 TokensUsed = result.Value.Usage.TotalTokenCount,
-                ModelUsed = result.Value.Model,
+                ModelUsed = string.IsNullOrWhiteSpace(result.Value.Model) ? options.Options.Model : result.Value.Model,
                 InputTokens = result.Value.Usage.InputTokenCount,
                 OutputTokens = result.Value.Usage.OutputTokenCount,
                 //ExtraMessage = "placeholder"

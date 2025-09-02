@@ -19,7 +19,10 @@ public class AITranslationResult
     public void AppendResult(AITranslationResult result)
     {
         TokensUsed += result.TokensUsed;
-        ModelUsed = result.ModelUsed;
+        if (string.IsNullOrWhiteSpace(result.ModelUsed) is false)
+        {
+            ModelUsed = result.ModelUsed;
+        }
         InputTokens += result.InputTokens;
         OutputTokens += result.OutputTokens;
         ExtraMessage = result.ExtraMessage;

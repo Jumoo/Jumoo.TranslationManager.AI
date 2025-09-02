@@ -1,5 +1,5 @@
 ﻿(function () {
-    'use static';
+    'use strict';
 
     function AiService($http) {
 

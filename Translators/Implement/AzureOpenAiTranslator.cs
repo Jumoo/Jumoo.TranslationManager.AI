@@ -6,13 +6,16 @@ using OpenAI.Chat;
 
 using System.ClientModel;
 
+using Umbraco.Cms.Core.Composing;
+
 namespace Jumoo.TranslationManager.AI.Translators.Implement;
 
+[Weight(300)]
 public class AzureOpenAiTranslator : IAITranslator
 {
     public string Alias => nameof(AzureOpenAiTranslator);
 
-    public string Name => "Azure OpenAI Translator";
+    public string Name => "Azure Foundry translator";
 
     public ChatClient? chatClient;
     public Task Initialize(AITranslatorRequestOptions options)

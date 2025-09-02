@@ -38,7 +38,7 @@ internal class AIComposer : IComposer
     {
         builder.Services.AddSingleton<AIConfigService>();
         builder.WithCollectionBuilder<AITranslatorCollectionBuilder>()
-                .Add(() => builder.TypeLoader.GetTypes<IAITranslator>());
+                .Add(builder.TypeLoader.GetTypes<IAITranslator>());
 
         builder.Services.AddSingleton<AIMemoryService>();
         builder.Services.AddSingleton<AIMessageService>();

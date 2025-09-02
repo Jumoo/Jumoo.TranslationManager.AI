@@ -1,16 +1,21 @@
 ﻿using Azure;
 using Azure.AI.Inference;
+
 using Jumoo.TranslationManager.AI.Models;
+
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Logging;
 
+using Umbraco.Cms.Core.Composing;
+
 namespace Jumoo.TranslationManager.AI.Translators.Implement
 {
+    [Weight(200)]
     public class GitHubAITranslator :IAITranslator
     {
         public string Alias => "GitHubAiTranslator";
 
-        public string Name => "GitHub AI Translator";
+        public string Name => "GitHub Inference model translator";
         public IChatClient? client;
         private readonly ILogger<GitHubAITranslator> logger;
 

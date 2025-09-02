@@ -3,21 +3,26 @@
         <umb-box-header title-key="tmAi_submitted-title">
         </umb-box-header>
         <umb-box-content>
-
-            <umb-control-group label="Tokens used:">
-                <div>
-                    {{ pvm.properties.tokensUsed }}
-                    <small>
-                        Input/Output :
-                        {{ pvm.properties.inputTokens }} / {{ pvm.properties.outputTokens }}
-                    </small>
+            <div class="flex justify-between">
+                <div class="flx-b5">
+                    <umb-control-group label="Tokens used:">
+                        <div>
+                            {{pvm.properties.tokensUsed}}
+                            <small>
+                                Input/Output :
+                                {{pvm.properties.inputTokens}} / {{pvm.properties.outputTokens}}
+                            </small>
+                        </div>
+                    </umb-control-group>
                 </div>
-            </umb-control-group>
+                <div class="flx-b5">
 
-            <umb-control-group label="Model"
-                               ng-if="pvm.properties.modelUsed.length > 0">
-                <div>{{ pvm.properties.modelUsed }}</div>
-            </umb-control-group>
+                    <umb-control-group label="Model Used:"
+                                       ng-if="pvm.properties.modelUsed.length > 0">
+                        <div>{{ pvm.properties.modelUsed }}</div>
+                    </umb-control-group>
+                </div>
+            </div>
 
             <umb-control-group label="Message"
                                ng-if="pvm.properties.extraMessage.length > 0">
@@ -25,5 +30,4 @@
             </umb-control-group>
         </umb-box-content>
     </umb-box>
-
 </div>

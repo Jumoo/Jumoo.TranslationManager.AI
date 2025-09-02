@@ -77,7 +77,10 @@ public class AIConnector : ITranslationProvider
 
             _logger.LogDebug("Submitting Translations via AI");
 
-            var results = new AITranslationResult();
+            var results = new AITranslationResult()
+            {
+                TranslatorUsed = _options.Translator
+            };
 
             foreach (var node in job.Nodes)
             {

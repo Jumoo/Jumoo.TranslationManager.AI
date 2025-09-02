@@ -10,6 +10,7 @@ using Newtonsoft.Json.Serialization;
 #endif
 public class AITranslationResult
 {
+    public string TranslatorUsed { get; set; } = string.Empty;
     public long TokensUsed { get; set; }
     public string ModelUsed { get; set; } = string.Empty;
     public long InputTokens { get; set; }

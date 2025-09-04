@@ -55,6 +55,7 @@ export default {
       "Seed value used by a service to control the reproducibility of results",
     modelUsed: "Model Used:",
     tokensUsed: "Tokens Used:",
+    translatorUsed: "Translator Used:",
     extra: "Extra Info:",
     translationMemory: "Use Translation Memory",
     translationMemoryDescription:

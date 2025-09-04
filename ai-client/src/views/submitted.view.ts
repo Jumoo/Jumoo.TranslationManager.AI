@@ -16,6 +16,7 @@ type AiResults = {
   inputTokens: number;
   outputTokens: number;
   extraMessage: string;
+  translatorUsed: string;
 };
 @customElement("jumoo-ai-submitted")
 export class TranslationAiSubmittedElement
@@ -50,6 +51,10 @@ export class TranslationAiSubmittedElement
       "tokensUsed",
       this.providerProperties?.tokensUsed,
       `Input/Output: ${this.providerProperties?.inputTokens}/${this.providerProperties?.outputTokens}`
+    )}
+    ${this.renderValue(
+      "translatorUsed",
+      this.providerProperties?.translatorUsed
     )}`;
   }
 
@@ -85,6 +90,7 @@ export class TranslationAiSubmittedElement
 
     .info {
       display: flex;
+      flex-wrap: wrap;
       // justify-content: space-between;
     }
   `;

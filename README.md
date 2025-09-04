@@ -108,3 +108,7 @@ Custom License - Copyright Jumoo 2025
 ## Support
 
 For support and documentation, visit the GitHub repository or contact Jumoo at info@jumoo.co.uk
+
+## Warning
+
+Keep in mind that AI translations might not be reliable, and may need proof-reading before being published

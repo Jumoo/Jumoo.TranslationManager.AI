@@ -60,5 +60,10 @@ export default {
     translationMemory: "Use Translation Memory",
     translationMemoryDescription:
       "Writes and uses local translation memory during a job",
+
+    ollamaUrl: "Ollama URL",
+    ollamaUrlDescription: "The URL of your Ollama server",
+    ollamaModel: "Ollama Model",
+    ollamaModelDescription: "The model to use on your Ollama server",
   },
 };

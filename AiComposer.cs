@@ -1,18 +1,29 @@
-﻿using Jumoo.TranslationManager.AI.Services;
+﻿using Jumoo.TranslationManager.AI.Controllers;
+using Jumoo.TranslationManager.AI.Services;
 using Jumoo.TranslationManager.AI.Translators;
 using Jumoo.TranslationManager.Core.Boot;
-using Jumoo.TranslationManager.Core.Models;
-using Jumoo.TranslationManager.Core.Providers;
+
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
+
 using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.DependencyInjection;
+using Umbraco.Cms.Core.Events;
 using Umbraco.Cms.Core.Manifest;
+using Umbraco.Cms.Core.Notifications;
 using Umbraco.Cms.Core.Routing;
-using Umbraco.Cms.Infrastructure.Manifest;
 using Umbraco.Extensions;
+
+#if UMB_16_OR_GREATER
+using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.Options;
+
+using Jumoo.TranslationManager.Core.Models;
+
+using Swashbuckle.AspNetCore.SwaggerGen;
+
+using Umbraco.Cms.Infrastructure.Manifest;
+#endif
 
 
 namespace Jumoo.TranslationManager.AI;
@@ -27,16 +38,30 @@ internal class AIComposer : IComposer
     {
         builder.Services.AddSingleton<AIConfigService>();
         builder.WithCollectionBuilder<AITranslatorCollectionBuilder>()
-                .Add(() => builder.TypeLoader.GetTypes<IAITranslator>());
-        
+                .Add(builder.TypeLoader.GetTypes<IAITranslator>());
+
+        builder.Services.AddSingleton<AIMemoryService>();
+        builder.Services.AddSingleton<AIMessageService>();
+
         builder.Services.AddSingleton<AITranslationService>();
 
+#if UMB_16_OR_GREATER
         // so we can swap services out. 
         builder.Services.ConfigureOptions<ConfigureSwaggerGenOptions>();
         builder.Services.AddSingleton<IPackageManifestReader, PassthroughConnectorManifestReader>();
+#else 
+        if (!builder.ManifestFilters().Has<AiConnectorManifestFilter>())
+            builder.ManifestFilters().Append<AiConnectorManifestFilter>();
+
+        builder.AddNotificationHandler<ServerVariablesParsingNotification, AiServerVariablesParserHandler>();
+
+#endif
     }
 }
-public class PassthroughConnectorManifestReader : IPackageManifestReader
+
+#if UMB_16_OR_GREATER
+
+internal class PassthroughConnectorManifestReader : IPackageManifestReader
 {
     public Task<IEnumerable<PackageManifest>> ReadPackageManifestsAsync()
     {
@@ -71,3 +96,45 @@ internal class ConfigureSwaggerGenOptions : IConfigureOptions<SwaggerGenOptions>
 
     }
 }
+#else 
+internal class AiConnectorManifestFilter : IManifestFilter
+{
+    public void Filter(List<PackageManifest> manifests)
+    {
+        if (manifests.Any(x => x.PackageName == AIConnector.ConnectorName))
+            return;
+
+        manifests.Add(new PackageManifest
+        {
+            PackageName = AIConnector.ConnectorName,
+            AllowPackageTelemetry = true,
+            Version = AIConnector.ConnectorVersion,
+            Scripts = new[]
+            {
+                WebPath.Combine(AIConnector.ConnectorPluginPath, "config.controller.js"),
+                WebPath.Combine(AIConnector.ConnectorPluginPath, "submitted.controller.js"),
+                WebPath.Combine(AIConnector.ConnectorPluginPath, "ai.service.js")
+            }
+        });
+    }
+}
+
+public class AiServerVariablesParserHandler :
+    INotificationHandler<ServerVariablesParsingNotification>
+{
+    private readonly LinkGenerator _linkGenerator;
+
+    public AiServerVariablesParserHandler(LinkGenerator linkGenerator)
+    {
+        _linkGenerator = linkGenerator;
+    }
+
+    public void Handle(ServerVariablesParsingNotification notification)
+    {
+        notification.ServerVariables.Add("openAiTranslations", new Dictionary<string, object>
+        {
+            { "service", _linkGenerator.GetUmbracoApiServiceBaseUrl<AIController>(x => x.GetApi()) ?? string.Empty }
+        });
+    }
+}
+#endif

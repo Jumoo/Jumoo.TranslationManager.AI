@@ -1,9 +1,13 @@
-﻿using Asp.Versioning;
+﻿#if UMB_16_OR_GREATER
 using Jumoo.TranslationManager.AI.Translators;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
+using Asp.Versioning;
 using Umbraco.Cms.Api.Common.Attributes;
+
 using Umbraco.Cms.Web.Common.Authorization;
 using Umbraco.Cms.Web.Common.Routing;
 
@@ -34,11 +38,11 @@ namespace Jumoo.TranslationManager.AI.Controllers
                 Name = x.Name,
             }));
         }
-    }
 
-    public class AITranslatorView
-    {
-        public required string Name { get; set; }
-        public required string Alias { get; set; }
+        [HttpGet("Defaults")]
+        [ProducesResponseType<AIConnectorDefaults>(StatusCodes.Status200OK)]
+        public IActionResult GetDefaults()
+            => Ok(new AIConnectorDefaults());
     }
 }
+#endif

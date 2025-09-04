@@ -3,7 +3,7 @@
 namespace Jumoo.TranslationManager.AI.Translators;
 
 public class AITranslatorCollectionBuilder
-    : LazyCollectionBuilderBase<AITranslatorCollectionBuilder, AITranslatorCollection, IAITranslator>
+    : WeightedCollectionBuilderBase<AITranslatorCollectionBuilder, AITranslatorCollection, IAITranslator>
 {
     protected override AITranslatorCollectionBuilder This => this;
 }

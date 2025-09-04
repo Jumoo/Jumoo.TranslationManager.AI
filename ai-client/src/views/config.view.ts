@@ -11,7 +11,7 @@ import {
   nothing,
   state,
 } from "@umbraco-cms/backoffice/external/lit";
-import { AiTranslate, AiTranslatorView } from "../api";
+import { AiConnectorDefaults, AiTranslate, AiTranslatorView } from "../api";
 import { ManifestAITranslatorConfig } from "../translators";
 //import { OpenAiTranslate } from "../api";
 
@@ -39,10 +39,27 @@ export class TranslationAiConnectorConfigElement
 
     // @ts-expect-error
     this.translators = (await AiTranslate.aiTranslateTranslators()).data;
-    console.log("T", this.translators);
 
-    //const models = await OpenAiTranslate.AiTranslateModels();
-    //console.log(models);
+    // @ts-expect-error
+    const defaultSettings = (await AiTranslate.aiTranslateDefaults())
+      .data as AiConnectorDefaults;
+
+    // if there are no settings load the defaults.
+    if (!this.settings?.translator) {
+      this.settings = {
+        translator: defaultSettings.translator,
+        throttle: defaultSettings.throttle,
+        model: defaultSettings.model,
+        prompt: defaultSettings.prompt,
+        maxTokens: defaultSettings.maxTokens,
+        temperature: defaultSettings.temperature,
+        frequencyPenalty: defaultSettings.frequencyPenalty,
+        presencePenalty: defaultSettings.presencePenalty,
+        nucleusSampling: defaultSettings.nucleusSamplingFactor,
+        split: defaultSettings.split,
+        asHtml: defaultSettings.asHtml,
+      };
+    }
   }
 
   onConfigUpdate(e: CustomEvent) {
@@ -132,15 +149,17 @@ export class TranslationAiConnectorConfigElement
     if (!this.settings?.translator) return nothing;
 
     return html`
-      <umb-extension-slot
-        type="jumoo-tm-ai-translator"
-        .filter=${(ext: ManifestAITranslatorConfig) =>
-          ext.alias == `${this.settings?.translator}${suffix ?? ""}`}
-        .props=${{
-          settings: this.settings,
-        }}
-        @ai-translator-config-update=${this.onConfigUpdate}
-      ></umb-extension-slot>
+      <div class="config-view">
+        <umb-extension-slot
+          type="jumoo-tm-ai-translator"
+          .filter=${(ext: ManifestAITranslatorConfig) =>
+            ext.alias == `${this.settings?.translator}${suffix ?? ""}`}
+          .props=${{
+            settings: this.settings,
+          }}
+          @ai-translator-config-update=${this.onConfigUpdate}
+        ></umb-extension-slot>
+      </div>
     `;
   }
 
@@ -448,6 +467,12 @@ export class TranslationAiConnectorConfigElement
     jumoo-tm-ui-box {
       --uui-box-default-padding: 0 var(--uui-size-space-5)
         var(--uui-size-space-1);
+    }
+
+    .config-view {
+      border: 1px solid var(--uui-color-border);
+      padding: var(--uui-size-space-5);
+      background-color: var(--uui-color-surface-alt);
     }
 
     .left,

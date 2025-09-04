@@ -1,16 +1,21 @@
 ﻿using Azure;
 using Azure.AI.Inference;
+
 using Jumoo.TranslationManager.AI.Models;
+
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Logging;
 
+using Umbraco.Cms.Core.Composing;
+
 namespace Jumoo.TranslationManager.AI.Translators.Implement
 {
+    [Weight(200)]
     public class GitHubAITranslator :IAITranslator
     {
         public string Alias => "GitHubAiTranslator";
 
-        public string Name => "GitHub AI Translator";
+        public string Name => "GitHub Inference model translator";
         public IChatClient? client;
         private readonly ILogger<GitHubAITranslator> logger;
 
@@ -21,7 +26,13 @@ namespace Jumoo.TranslationManager.AI.Translators.Implement
 
         public Task Initialize(AITranslatorRequestOptions options)
         {
-            AzureKeyCredential credential = new(options.Options.APIKey);
+
+            var apiStringKey = options.Options.GetAdditionalOption<string?>("githubKey", null);
+            if (string.IsNullOrWhiteSpace(apiStringKey))
+                throw new Exception("No api key");
+
+
+            AzureKeyCredential credential = new(apiStringKey);
             Uri modelEndpoint = new("https://models.inference.ai.azure.com");
 
             client = new ChatCompletionsClient(modelEndpoint, credential).AsIChatClient(options.Options.Model);
@@ -74,6 +85,12 @@ namespace Jumoo.TranslationManager.AI.Translators.Implement
                     OutputTokens = result.Usage?.OutputTokenCount ?? 0,
                 }
             };
+        }
+
+        public bool IsValid(AIOptions options)
+        {
+            var apiStringKey = options.GetAdditionalOption<string?>("githubKey", null);
+            return string.IsNullOrWhiteSpace(apiStringKey) is false;
         }
     }
 }

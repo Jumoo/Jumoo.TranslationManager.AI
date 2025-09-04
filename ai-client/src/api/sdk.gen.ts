@@ -6,6 +6,8 @@ import type {
   Client,
 } from "@hey-api/client-fetch";
 import type {
+  AiTranslateDefaultsData,
+  AiTranslateDefaultsResponses,
   AiTranslateTranslatorsData,
   AiTranslateTranslatorsResponses,
 } from "./types.gen";
@@ -29,6 +31,19 @@ export type Options<
 };
 
 export class AiTranslate {
+  public static aiTranslateDefaults<ThrowOnError extends boolean = true>(
+    options?: Options<AiTranslateDefaultsData, ThrowOnError>,
+  ) {
+    return (options?.client ?? _heyApiClient).get<
+      AiTranslateDefaultsResponses,
+      unknown,
+      ThrowOnError
+    >({
+      url: "/umbraco/tm-ai/api/v1/Defaults",
+      ...options,
+    });
+  }
+
   public static aiTranslateTranslators<ThrowOnError extends boolean = true>(
     options?: Options<AiTranslateTranslatorsData, ThrowOnError>,
   ) {

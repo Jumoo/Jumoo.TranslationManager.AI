@@ -1,8 +1,11 @@
 ﻿using Jumoo.TranslationManager.AI.Models;
 using Microsoft.Extensions.AI;
 
+using Umbraco.Cms.Core.Composing;
+
 namespace Jumoo.TranslationManager.AI.Translators.Implement
 {
+    [Weight(100)]
     public class OpenAITranslator : IAITranslator
     {
         public string Alias => "OpenAiTranslator";
@@ -71,6 +74,12 @@ namespace Jumoo.TranslationManager.AI.Translators.Implement
                 }
             };
 
+        }
+
+        public bool IsValid(AIOptions options)
+        {
+            var apiStringKey = options.GetAdditionalOption<string?>("openAiKey", null);
+            return string.IsNullOrWhiteSpace(apiStringKey) is false;
         }
     }
 }

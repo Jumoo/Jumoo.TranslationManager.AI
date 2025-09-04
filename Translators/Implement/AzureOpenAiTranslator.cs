@@ -1,22 +1,21 @@
 ﻿using Azure.AI.OpenAI;
-using Jumoo.Json;
+
 using Jumoo.TranslationManager.AI.Models;
+
 using OpenAI.Chat;
-using System;
+
 using System.ClientModel;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Markup;
+
+using Umbraco.Cms.Core.Composing;
 
 namespace Jumoo.TranslationManager.AI.Translators.Implement;
 
+[Weight(300)]
 public class AzureOpenAiTranslator : IAITranslator
 {
     public string Alias => nameof(AzureOpenAiTranslator);
 
-    public string Name => "Azure OpenAI Translator";
+    public string Name => "Azure Foundry translator";
 
     public ChatClient? chatClient;
     public Task Initialize(AITranslatorRequestOptions options)
@@ -65,13 +64,23 @@ public class AzureOpenAiTranslator : IAITranslator
             AIResult = new AITranslationResult
             {
                 TokensUsed = result.Value.Usage.TotalTokenCount,
-                ModelUsed = result.Value.Model,
+                ModelUsed = string.IsNullOrWhiteSpace(result.Value.Model) ? options.Options.Model : result.Value.Model,
                 InputTokens = result.Value.Usage.InputTokenCount,
                 OutputTokens = result.Value.Usage.OutputTokenCount,
                 //ExtraMessage = "placeholder"
             }
 
         };
+    }
+
+    public bool IsValid(AIOptions options)
+    {
+        var apiStringKey = options.GetAdditionalOption<string?>("azureKey", null);
+        if (string.IsNullOrEmpty(options.URL) 
+            || string.IsNullOrWhiteSpace(apiStringKey))
+            return false;
+
+        return true;
     }
 }
 

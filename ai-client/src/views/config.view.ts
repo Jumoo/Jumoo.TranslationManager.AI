@@ -59,6 +59,8 @@ export class TranslationAiConnectorConfigElement
         split: defaultSettings.split,
         asHtml: defaultSettings.asHtml,
       };
+
+      this.#context?.update(this.settings);
     }
   }
 
@@ -109,7 +111,6 @@ export class TranslationAiConnectorConfigElement
           >
             ${this.renderPrompt()}</jumoo-tm-ui-box
           >
-          <pre>${JSON.stringify(this.settings, null, 1)}</pre>
         </div>
       </div>
     </umb-body-layout>`;
@@ -465,8 +466,7 @@ export class TranslationAiConnectorConfigElement
 
     uui-box,
     jumoo-tm-ui-box {
-      --uui-box-default-padding: 0 var(--uui-size-space-5)
-        var(--uui-size-space-1);
+      --uui-box-default-padding: 0 var(--uui-size-space-5);
     }
 
     .config-view {

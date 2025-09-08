@@ -56,6 +56,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="ai-client\src\translators\ollama\" />
+		<Folder Include="ai-client\src\translators\ollama\" />
 	</ItemGroup>
 </Project>

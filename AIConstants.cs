@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Jumoo.TranslationManager.AI
 {
-    internal class AIConstants
+    public class AIConstants
     {
         public class Defaults
         {

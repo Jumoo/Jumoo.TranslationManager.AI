@@ -19,7 +19,7 @@ namespace Jumoo.TranslationManager.AI.Translators.Implement
 
             var apiStringKey = options.Options.GetAdditionalOption<string?>("openAiKey", null);
         if (string.IsNullOrWhiteSpace(apiStringKey))
-                throw new Exception("No azure api key");
+                throw new Exception("No openai api key");
 
             client =
                 new OpenAI.Chat.ChatClient(model, options.Options.GetAdditionalOption("openAiKey", string.Empty))

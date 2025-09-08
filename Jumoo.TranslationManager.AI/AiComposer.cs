@@ -71,9 +71,18 @@ internal class PassthroughConnectorManifestReader : IPackageManifestReader
             Alias = AIConnector.ConnectorAlias,
             Version = AIConnector.ConnectorVersion,
             EntryPointScript = WebPath.Combine(AIConnector.ConnectorPluginPath, "AI.js")
+        }.ToPackageManifest();
+
+
+        manifest.Importmap = new PackageManifestImportmap
+        {
+            Imports = new Dictionary<string, string>
+            {
+                {  "@jumoo/translate-ai", WebPath.Combine(AIConnector.ConnectorPluginPath, "AI.js") }
+            }
         };
 
-        return Task.FromResult(manifest.ToPackageManifest().AsEnumerableOfOne());
+        return Task.FromResult(manifest.AsEnumerableOfOne());
     }
 }
 

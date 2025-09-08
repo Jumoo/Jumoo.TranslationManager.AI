@@ -4,6 +4,9 @@
   "licence": "Custom",
   "description": "Jumoo ai connector",
   "type": "module",
+  "module": "./dist/index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "author": {
     "name": "Jumoo",
     "email": "info@jumoo.co.uk",

@@ -65,7 +65,7 @@ export class TranslationAiConnectorPendingElement
         </div>
         <div class="setting">
           <div class="title">Translation Memory</div>
-          <div class="value">${settings?.useTranslationMemory}</div>
+          <div class="value">${settings?.useTranslationMemory ?? "false"}</div>
         </div>
       </div>
     </jumoo-tm-ui-box>`;

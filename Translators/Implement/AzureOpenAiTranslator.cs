@@ -24,11 +24,12 @@ public class AzureOpenAiTranslator : IAITranslator
         if (string.IsNullOrWhiteSpace(apiStringKey))
             throw new Exception("No azure api key");
 
-        if (string.IsNullOrEmpty(options.Options.URL)) throw new Exception("No URL provided");
+        var url = options.Options.GetAdditionalOption<string?>("url", null);
+        if (string.IsNullOrEmpty(url)) throw new Exception("No URL provided");
         AzureOpenAIClient azureClient = new(
-            new Uri(options.Options.URL),
+            new Uri(url),
             new ApiKeyCredential(apiStringKey));
-        chatClient = azureClient.GetChatClient("gpt-4o-mini");
+        chatClient = azureClient.GetChatClient(options.Options.Model);
         return Task.CompletedTask;
     }
 

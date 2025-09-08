@@ -36,8 +36,8 @@ export class AzureTranslatorConfigElement
         <uui-input
           id="url"
           label="Url"
-          .value=${(this.settings?.url as string) ?? ""}
-          @change=${this.onUpdateOption}
+          .value=${(this.settings?.additional.url as string) ?? ""}
+          @change=${this.onUpdateAdditional}
         ></uui-input>
       </div>
     </umb-property-layout>`;

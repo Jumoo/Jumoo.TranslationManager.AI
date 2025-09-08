@@ -9,7 +9,7 @@ public class OllamaTranslator : IAITranslator
 {
     public string Alias => "OllamaTranslator";
 
-    public string Name => "ollama translator";
+    public string Name => "Ollama translator";
 
     IChatClient? _client; 
 

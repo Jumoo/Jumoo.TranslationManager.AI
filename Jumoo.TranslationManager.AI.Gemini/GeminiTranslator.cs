@@ -3,6 +3,8 @@ using GeminiDotnet.Extensions.AI;
 
 using Jumoo.TranslationManager.AI.Models;
 
+using Microsoft.Extensions.AI;
+
 namespace Jumoo.TranslationManager.AI.Translators.Implement;
 
 [RequiredAIAdditionalOption("geminiKey")]
@@ -30,8 +32,18 @@ public class GeminiTranslator : AITranslatorBase, IAITranslator
     {
         if (client is null) return new AITranslationValueResult<List<string>>();
 
-        var prompts = GetBasePrompts(text, options);
+        var prompts = new List<ChatMessage>(text.Count());
+        // for each text string in the text strings
+        foreach (var item in text)
+        {
+            prompts.Add(new ChatMessage(ChatRole.User, options.GetPrompt(item)));
+        }
+
         var chatOptions = GetBaseChatOptions(options);
+        chatOptions.ResponseFormat = null;
+        chatOptions.AllowMultipleToolCalls = null;
+        chatOptions.Tools = null;
+        chatOptions.ToolMode = null;
 
         return await GetBaseResponseAsync(prompts, chatOptions, options);
     }

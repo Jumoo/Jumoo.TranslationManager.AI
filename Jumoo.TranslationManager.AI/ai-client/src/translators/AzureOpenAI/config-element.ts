@@ -34,9 +34,9 @@ export class AzureTranslatorConfigElement
       .description=${this.localize.term("ai_azureUrlDescription")}
       ><div slot="editor">
         <uui-input
-          id="url"
+          id="azureUrl"
           label="Url"
-          .value=${(this.settings?.additional.url as string) ?? ""}
+          .value=${(this.settings?.additional.azureUrl as string) ?? ""}
           @change=${this.onUpdateAdditional}
         ></uui-input>
       </div>

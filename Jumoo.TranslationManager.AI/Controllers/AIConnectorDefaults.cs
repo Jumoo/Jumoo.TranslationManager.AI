@@ -11,6 +11,7 @@ public class AIConnectorDefaults
     public string Translator { get; set; } = AIConstants.Defaults.Translator;
     public int Throttle { get; set; } = AIConstants.Defaults.Throttle;
     public string Model { get; set; } = AIConstants.Defaults.Model;
+    public string SystemPrompt { get; set; } = AIConstants.Defaults.SystemPrompt;
     public string Prompt { get; set; } = AIConstants.Defaults.Prompt;
     public int MaxTokens { get; set; } = AIConstants.Defaults.MaxTokens;
     public int Temperature { get; set; } = AIConstants.Defaults.Temperature;

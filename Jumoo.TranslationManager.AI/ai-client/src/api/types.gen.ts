@@ -4,6 +4,7 @@ export type AiConnectorDefaults = {
   translator: string;
   throttle: number;
   model: string;
+  systemPrompt: string;
   prompt: string;
   maxTokens: number;
   temperature: number;

@@ -11,10 +11,11 @@ using Umbraco.Cms.Core.Composing;
 namespace Jumoo.TranslationManager.AI.Translators.Implement;
 
 [Weight(300)]
-public class AzureOpenAiTranslator : IAITranslator
+[RequiredAIAdditionalOption("azureKey")]
+[RequiredAIAdditionalOption("azureUrl")]
+public class AzureOpenAiTranslator : AITranslatorBase, IAITranslator
 {
-    public string Alias => nameof(AzureOpenAiTranslator);
-
+    public override string Alias => nameof(AzureOpenAiTranslator);
     public string Name => "Azure Foundry translator";
 
     public ChatClient? chatClient;
@@ -24,7 +25,7 @@ public class AzureOpenAiTranslator : IAITranslator
         if (string.IsNullOrWhiteSpace(apiStringKey))
             throw new Exception("No azure api key");
 
-        var url = options.Options.GetAdditionalOption<string?>("url", null);
+        var url = options.Options.GetAdditionalOption<string?>("azureUrl", null);
         if (string.IsNullOrEmpty(url)) throw new Exception("No URL provided");
         AzureOpenAIClient azureClient = new(
             new Uri(url),
@@ -38,10 +39,13 @@ public class AzureOpenAiTranslator : IAITranslator
         if (chatClient is null) return new AITranslationValueResult<List<string>>();
 
         var prompts = new List<ChatMessage>(text.Count());
-        foreach (var item in text)
-        {
-            prompts.Add(new UserChatMessage(options.GetPrompt(item)));
-        }
+
+        var systemPrompt = options.GetSystemPrompt();
+        if (string.IsNullOrWhiteSpace(systemPrompt) is false)
+            prompts.Add(new SystemChatMessage(systemPrompt));
+
+        prompts.AddRange(
+            text.Select(x => new UserChatMessage(options.GetPrompt(x))));
 
         var chatOptions = new ChatCompletionOptions
         {
@@ -72,16 +76,6 @@ public class AzureOpenAiTranslator : IAITranslator
             }
 
         };
-    }
-
-    public bool IsValid(AIOptions options)
-    {
-        var apiStringKey = options.GetAdditionalOption<string?>("azureKey", null);
-        if (string.IsNullOrEmpty(options.URL) 
-            || string.IsNullOrWhiteSpace(apiStringKey))
-            return false;
-
-        return true;
     }
 }
 

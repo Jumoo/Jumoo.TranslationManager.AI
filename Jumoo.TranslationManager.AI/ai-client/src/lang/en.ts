@@ -36,6 +36,10 @@ export default {
     nucleusSampling: "Nucleus Sampling/TopP",
     nucleusSamplingDescription:
       "The 'nucleus sampling' factor (or 'top p') for generating chat responses",
+
+    systemPrompt: "System Prompt",
+    systemPromptDescription: "The system prompt sent to the AI model",
+
     prompt: "Prompt",
     promptDescription: "The prompt sent to the AI model for translation",
     toolCalls: "Allow Multiple Tool Calls",

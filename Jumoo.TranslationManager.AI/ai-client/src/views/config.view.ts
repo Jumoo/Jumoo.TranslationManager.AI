@@ -58,6 +58,7 @@ export class TranslationAiConnectorConfigElement
         nucleusSampling: defaultSettings.nucleusSamplingFactor,
         split: defaultSettings.split,
         asHtml: defaultSettings.asHtml,
+        systemPrompt: defaultSettings.systemPrompt,
       };
 
       this.#context?.update(this.settings);
@@ -109,7 +110,7 @@ export class TranslationAiConnectorConfigElement
             .collapsable=${true}
             .expanded=${false}
           >
-            ${this.renderPrompt()}</jumoo-tm-ui-box
+            ${this.renderSystemPrompt()} ${this.renderPrompt()}</jumoo-tm-ui-box
           >
         </div>
       </div>
@@ -363,6 +364,22 @@ export class TranslationAiConnectorConfigElement
           label="Prompt"
           .value=${(this.settings?.prompt as string) ??
           "You will be provided with sentences in {sourceLang}, and your task is to translate it into {targetLang}. If you cannot translate something, leave it as it is. Translate all the text below: \n\r{text}"}
+          @change=${this.onUpdateOption}
+          rows="5"
+        ></uui-textarea>
+      </div>
+    </umb-property-layout>`;
+  }
+
+  renderSystemPrompt() {
+    return html` <umb-property-layout
+      .label=${this.localize.term("ai_systemPrompt")}
+      .description=${this.localize.term("ai_systemPromptDescription")}
+      ><div slot="editor">
+        <uui-textarea
+          id="systemPrompt"
+          label="system Prompt"
+          .value=${(this.settings?.systemPrompt as string) ?? ""}
           @change=${this.onUpdateOption}
           rows="5"
         ></uui-textarea>

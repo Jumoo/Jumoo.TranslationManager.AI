@@ -17,6 +17,7 @@ namespace Jumoo.TranslationManager.AI
             public const bool Split = true;
             public const bool AsHtml = true;
             public const string Model = "gpt-4o-mini";
+            public const string SystemPrompt = "You are a helpful assistant that translates {sourceLang} to {targetLang}. you only return the translations you don't add any additional information.";
             public const string Prompt = "You will be provided with sentences in {sourceLang}, and your task is to translate it into {targetLang}. If you cannot translate something, leave it as it is. Translate all the text below: \n\r{text}";
             public const int MaxTokens = 500;
             public const int Temperature = 1;

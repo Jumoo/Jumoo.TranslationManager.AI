@@ -5,13 +5,14 @@ using Microsoft.Extensions.AI;
 using OllamaSharp;
 
 namespace Jumoo.TranslationManager.AI.Translators.Implement;
-public class OllamaTranslator : IAITranslator
+
+[RequiredAIAdditionalOption("ollamaUrl")]
+[RequiredAIAdditionalOption("ollamaModel")]
+public class OllamaTranslator : AITranslatorBase, IAITranslator
 {
-    public string Alias => "OllamaTranslator";
+    public override string Alias => "OllamaTranslator";
 
     public string Name => "Ollama translator";
-
-    IChatClient? _client; 
 
     public Task Initialize(AITranslatorRequestOptions options)
     {
@@ -21,23 +22,16 @@ public class OllamaTranslator : IAITranslator
         var model = options.Options.GetAdditionalOption<string?>("ollamaModel", null);  
         if (string.IsNullOrEmpty(model)) throw new Exception("No model provided");
 
-        _client = new OllamaApiClient(new Uri(url), model);
+        client = new OllamaApiClient(new Uri(url), model);
 
         return Task.CompletedTask;
     }
 
-    public bool IsValid(AIOptions options)
-        => true;
-
     public async Task<AITranslationValueResult<List<string>>> TranslateText(IEnumerable<string> text, AITranslatorRequestOptions options)
     {
-        if (_client is null) return new AITranslationValueResult<List<string>>();
+        if (client is null) return new AITranslationValueResult<List<string>>();
 
-        var prompts = new List<ChatMessage>(text.Count());
-        foreach (var item in text)
-        {
-            prompts.Add(new ChatMessage(ChatRole.User, options.GetPrompt(item)));
-        }
+        var prompts = GetBasePrompts(text, options);
 
         var chatOptions = new ChatOptions
         {
@@ -49,19 +43,6 @@ public class OllamaTranslator : IAITranslator
             TopK = options.Options.TopK
         };
 
-        var result = await _client.GetResponseAsync(prompts, chatOptions);
-
-        return new AITranslationValueResult<List<string>>()
-        {
-            Value = result.Messages.Select(x => x.Text).ToList(),
-            AIResult = new AITranslationResult()
-            {
-                ModelUsed = result.ModelId ?? options.Options.Model,
-                TranslatorUsed = Alias,
-                TokensUsed = result.Usage?.TotalTokenCount ?? 0,
-                InputTokens = result.Usage?.InputTokenCount ?? 0,
-                OutputTokens = result.Usage?.OutputTokenCount ?? 0,
-            }
-        };
+        return await GetBaseResponseAsync(prompts, chatOptions, options);
     }
 }

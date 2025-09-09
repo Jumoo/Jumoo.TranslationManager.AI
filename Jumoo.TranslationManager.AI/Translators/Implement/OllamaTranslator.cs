@@ -4,10 +4,13 @@ using Microsoft.Extensions.AI;
 
 using OllamaSharp;
 
+using Umbraco.Cms.Core.Composing;
+
 namespace Jumoo.TranslationManager.AI.Translators.Implement;
 
 [RequiredAIAdditionalOption("ollamaUrl")]
 [RequiredAIAdditionalOption("ollamaModel")]
+[Weight(400)]
 public class OllamaTranslator : AITranslatorBase, IAITranslator
 {
     public override string Alias => "OllamaTranslator";

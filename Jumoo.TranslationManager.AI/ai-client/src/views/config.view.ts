@@ -80,10 +80,7 @@ export class TranslationAiConnectorConfigElement
       <div class="layout">
         <div class="left">
           <uui-box>
-            <p>
-              In order to use an AI Translation API, you will need to supply an
-              API Key.
-            </p>
+            <p><umb-localize key="ai_intro"></umb-localize></p>
           </uui-box>
           <jumoo-tm-ui-box headline="AI Translation API">
             <div>

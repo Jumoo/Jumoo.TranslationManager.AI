@@ -5,10 +5,13 @@ using Jumoo.TranslationManager.AI.Models;
 
 using Microsoft.Extensions.AI;
 
+using Umbraco.Cms.Core.Composing;
+
 namespace Jumoo.TranslationManager.AI.Translators.Implement;
 
 [RequiredAIAdditionalOption("geminiKey")]
 [RequiredAIOptions(nameof(AIOptions.Model))]
+[Weight(250)]
 public class GeminiTranslator : AITranslatorBase, IAITranslator
 {
     public override string Alias => "GeminiTranslator";

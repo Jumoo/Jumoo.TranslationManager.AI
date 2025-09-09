@@ -10,7 +10,7 @@ using Umbraco.Cms.Core.Composing;
 
 namespace Jumoo.TranslationManager.AI.Translators.Implement;
 
-[Weight(200)]
+[Weight(2000)]
 [RequiredAIAdditionalOption("githubKey")]
 public class GitHubAITranslator : AITranslatorBase, IAITranslator
 {

@@ -1,5 +1,7 @@
 export default {
   ai: {
+    intro:
+      "Configure your AI Translation settings below. you will likely need an API key and other settings to use your chosen AI provider.",
     openAIApiKey: "OpenAI API Key",
     openAIApiKeyDescription: "AI Translation API Key for OpenAI",
     githubAuthKey: "GitHub Auth Key",

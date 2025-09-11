@@ -51,6 +51,6 @@ public class GitHubAITranslator : AITranslatorBase, IAITranslator
         chatOptions.ToolMode = null;
         chatOptions.Tools = null;
 
-        return await GetBaseResponseAsync(prompts, chatOptions, options);
+        return await GetBaseResponseAsync(prompts, chatOptions, options, options.Options.Model);
     }
 }

@@ -40,6 +40,6 @@ public class OpenAITranslator : AITranslatorBase, IAITranslator
         chatOptions.Tools = null;
         chatOptions.ToolMode = null;
 
-        return await GetBaseResponseAsync(prompts, chatOptions, options);
+        return await GetBaseResponseAsync(prompts, chatOptions, options, options.Options.Model);
     }
 }

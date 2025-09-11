@@ -23,7 +23,8 @@ export default {
     libraryDescription:
       "Choose which API Library to use when sending translations",
     model: "Model",
-    modelDescription: "AI model to use for translation",
+    modelDescription:
+      "AI model to use for translation, can be overwritten by translator-specific model setting",
     maxTokens: "Max Tokens",
     maxTokensDescription:
       "The maximum number of tokens to generate in the completion",

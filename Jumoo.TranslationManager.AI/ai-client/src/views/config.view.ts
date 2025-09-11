@@ -63,6 +63,14 @@ export class TranslationAiConnectorConfigElement
 
       this.#context?.update(this.settings);
     }
+
+    if (!this.settings.systemPrompt) {
+      this.#context?.update({ ["systemPrompt"]: defaultSettings.systemPrompt });
+    }
+
+    if (!this.settings.prompt) {
+      this.#context?.update({ ["prompt"]: defaultSettings.systemPrompt });
+    }
   }
 
   onConfigUpdate(e: CustomEvent) {
@@ -359,8 +367,7 @@ export class TranslationAiConnectorConfigElement
         <uui-textarea
           id="prompt"
           label="Prompt"
-          .value=${(this.settings?.prompt as string) ??
-          "You will be provided with sentences in {sourceLang}, and your task is to translate it into {targetLang}. If you cannot translate something, leave it as it is. Translate all the text below: \n\r{text}"}
+          .value=${(this.settings?.prompt as string) ?? ""}
           @change=${this.onUpdateOption}
           rows="5"
         ></uui-textarea>

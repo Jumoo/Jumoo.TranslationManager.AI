@@ -20,7 +20,7 @@ export class OllamaTranslatorConfigElement
       ><div slot="editor">
         <uui-input
           id="ollamaModel"
-          label="Url"
+          label="Model"
           .value=${(this.settings?.additional["ollamaModel"] as string) ?? ""}
           @change=${this.onUpdateAdditional}
         ></uui-input>

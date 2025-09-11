@@ -10,7 +10,7 @@ export class GeminiTranslatorConfigElement
   implements TranslatorAIConfigElement
 {
   render() {
-    return html`${this.renderApiKey()}`;
+    return html`${this.renderApiKey()} ${this.renderModel()}`;
   }
 
   renderApiKey() {
@@ -22,6 +22,21 @@ export class GeminiTranslatorConfigElement
           id="geminiKey"
           label="ApiKey"
           .value=${(this.settings?.additional?.geminiKey as string) ?? ""}
+          @change=${this.onUpdateAdditional}
+        ></uui-input>
+      </div>
+    </umb-property-layout>`;
+  }
+
+  renderModel() {
+    return html`<umb-property-layout
+      .label=${this.localize.term("gemini_model")}
+      .description=${this.localize.term("gemini_modelDescription")}
+      ><div slot="editor">
+        <uui-input
+          id="geminiModel"
+          label="Model"
+          .value=${(this.settings?.additional["geminiModel"] as string) ?? ""}
           @change=${this.onUpdateAdditional}
         ></uui-input>
       </div>

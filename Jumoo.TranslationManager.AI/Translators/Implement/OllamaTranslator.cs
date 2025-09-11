@@ -46,6 +46,6 @@ public class OllamaTranslator : AITranslatorBase, IAITranslator
             TopK = options.Options.TopK
         };
 
-        return await GetBaseResponseAsync(prompts, chatOptions, options);
+        return await GetBaseResponseAsync(prompts, chatOptions, options, options.Options.GetAdditionalOption<string>("ollamaModel", string.Empty));
     }
 }

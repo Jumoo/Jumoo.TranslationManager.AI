@@ -10,7 +10,7 @@ using Umbraco.Cms.Core.Composing;
 namespace Jumoo.TranslationManager.AI.Translators.Implement;
 
 [RequiredAIAdditionalOption("geminiKey")]
-[RequiredAIOptions(nameof(AIOptions.Model))]
+[RequiredAIAdditionalOption("geminiModel")]
 [Weight(250)]
 public class GeminiTranslator : AITranslatorBase, IAITranslator
 {
@@ -19,13 +19,14 @@ public class GeminiTranslator : AITranslatorBase, IAITranslator
 
     public Task Initialize(AITranslatorRequestOptions options)
     {
-        var model = string.IsNullOrWhiteSpace(options.Options.Model) ? AIConstants.Defaults.Model : options.Options.Model;
+        var model = options.Options.GetAdditionalOption<string?>("geminiModel", null);
+        if (string.IsNullOrEmpty(model)) throw new Exception("No model provided");
 
         var apiStringKey = options.Options.GetAdditionalOption<string?>("geminiKey", null);
         if (string.IsNullOrWhiteSpace(apiStringKey))
             throw new Exception("No gemini api key");
 
-        var geminiOptions = new GeminiClientOptions { ApiKey = apiStringKey, ModelId = GeminiModels.Gemini2Flash };
+        var geminiOptions = new GeminiClientOptions { ApiKey = apiStringKey, ModelId = model };
 
         client = new GeminiChatClient(geminiOptions);
         return Task.CompletedTask;
@@ -48,6 +49,6 @@ public class GeminiTranslator : AITranslatorBase, IAITranslator
         chatOptions.Tools = null;
         chatOptions.ToolMode = null;
 
-        return await GetBaseResponseAsync(prompts, chatOptions, options);
+        return await GetBaseResponseAsync(prompts, chatOptions, options, options.Options.Model);
     }
 }

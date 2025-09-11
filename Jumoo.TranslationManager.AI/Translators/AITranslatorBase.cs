@@ -66,7 +66,7 @@ public abstract class AITranslatorBase
     }
 
     protected async Task<AITranslationValueResult<List<string>>> GetBaseResponseAsync(List<ChatMessage> prompts, 
-        ChatOptions chatOptions, AITranslatorRequestOptions options)
+        ChatOptions chatOptions, AITranslatorRequestOptions options, string model)
     {
         if (client is null) return new AITranslationValueResult<List<string>>();
 
@@ -77,7 +77,7 @@ public abstract class AITranslatorBase
             Value = result.Messages.Select(x => x.Text).ToList(),
             AIResult = new AITranslationResult()
             {
-                ModelUsed = result.ModelId ?? options.Options.Model,
+                ModelUsed = result.ModelId ?? model,
                 TranslatorUsed = Alias,
                 TokensUsed = result.Usage?.TotalTokenCount ?? 0,
                 InputTokens = result.Usage?.InputTokenCount ?? 0,

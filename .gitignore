@@ -1,3 +1,8 @@
 /dist/*/
 /dist/*.version
 /dist/*.exe
+/Jumoo.TranslationManager.AI.Gemini/wwwroot/
+/Jumoo.TranslationManager.AI.Gemini/wwwroot/App_Plugins/Translations.AI.Gemini/config-element-DEF_WOqg.js
+/Jumoo.TranslationManager.AI.Gemini/wwwroot/App_Plugins/Translations.AI.Gemini/config-element-DEF_WOqg.js.map
+/Jumoo.TranslationManager.AI.Gemini/wwwroot/App_Plugins/Translations.AI.Gemini/en-Civ5glqL.js
+/Jumoo.TranslationManager.AI.Gemini/wwwroot/App_Plugins/Translations.AI.Gemini/en-Civ5glqL.js.map

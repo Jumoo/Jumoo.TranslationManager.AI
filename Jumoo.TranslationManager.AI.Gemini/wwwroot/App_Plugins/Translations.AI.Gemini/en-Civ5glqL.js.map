@@ -1,1 +1,0 @@
-{"version":3,"file":"en-Civ5glqL.js","sources":["../../../gemini-client/src/lang/en.ts"],"sourcesContent":["export default {\r\n  gemini: {\r\n    apiKey: \"Google Gemini API Key\",\r\n    apiKeyDescription: \"AI Translation API Key for Google Gemini\",\r\n  },\r\n};\r\n"],"names":["en"],"mappings":"AAAA,MAAAA,IAAe;AAAA,EACb,QAAQ;AAAA,IACN,QAAQ;AAAA,IACR,mBAAmB;AAAA,EAAA;AAEvB;"}

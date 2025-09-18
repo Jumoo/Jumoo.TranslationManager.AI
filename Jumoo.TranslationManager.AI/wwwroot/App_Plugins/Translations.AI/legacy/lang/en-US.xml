@@ -31,11 +31,24 @@
 		<key alias="key-desc">Azure AI Key</key>
 		<key alias="url">Azure Endpoint URL</key>
 		<key alias="url-desc">
-				<![CDATA[
+			<![CDATA[
 			Supported Azure OpenAI endpoints 
 			(protocol and hostname, for example: https://aoairesource.openai.azure.com. <br/>
 			Replace 'aoairesource' with your Azure OpenAI resource name).
 			<br/> https://{your-resource-name}.openai.azure.com]]>
+		</key>
+	</area>
+	<area alias="tmOllama">
+		<key alias="description">
+			<![CDATA[
+			<strong>Ollama: </strong> use your own custom Ollama LLM models for translation
+			]]>
+		</key>
+		<key alias="model">Ollama Model Name</key>
+		<key alias="model-desc">You must have this model installed on your ollama instance</key>
+		<key alias="url">Ollama Url</key>
+		<key alias="url-desc">
+			<![CDATA[ the full url to your ollama server (e.g. https://localhost:11434)]]>
 		</key>
 	</area>
 	<area alias="tmAi">

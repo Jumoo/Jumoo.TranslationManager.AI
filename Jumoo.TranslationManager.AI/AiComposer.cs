@@ -121,8 +121,8 @@ internal class AiConnectorManifestFilter : IManifestFilter
             Scripts = new[]
             {
                 WebPath.Combine(AIConnector.ConnectorPluginPath, "config.controller.js"),
-                WebPath.Combine(AIConnector.ConnectorPluginPath, "submitted.controller.js"),
-                WebPath.Combine(AIConnector.ConnectorPluginPath, "ai.service.js")
+                WebPath.Combine(AIConnector.ConnectorPluginPath, "ai.service.js"),
+                WebPath.Combine(AIConnector.ConnectorPluginPath, "submitted.controller.js")
             }
         });
     }

@@ -1,3 +1,6 @@
+> [!WARNING]
+> This connector is still in a pre-release phase, and should be tested before live usage. 
+
 # Jumoo.TranslationManager.AI.*
 
 AI Based translators for Translation Manager for Umbraco.

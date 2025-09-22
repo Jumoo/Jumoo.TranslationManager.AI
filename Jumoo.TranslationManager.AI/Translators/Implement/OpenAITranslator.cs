@@ -7,7 +7,7 @@ namespace Jumoo.TranslationManager.AI.Translators.Implement;
 
 [Weight(100)]
 [RequiredAIAdditionalOption("openAiKey")]
-[RequiredAIOptions(nameof(AIOptions.Model))]
+[RequiredAIAdditionalOption("openAiModel")]
 public class OpenAITranslator : AITranslatorBase, IAITranslator
 {
     public override string Alias => "OpenAiTranslator";
@@ -15,14 +15,15 @@ public class OpenAITranslator : AITranslatorBase, IAITranslator
 
     public Task Initialize(AITranslatorRequestOptions options)
     {
-        var model = string.IsNullOrWhiteSpace(options.Options.Model) ? AIConstants.Defaults.Model : options.Options.Model;
+        var model = options.Options.GetAdditionalOption<string?>("openAiModel", null);
+        if (string.IsNullOrEmpty(model)) throw new Exception("No model provided");
 
         var apiStringKey = options.Options.GetAdditionalOption<string?>("openAiKey", null);
         if (string.IsNullOrWhiteSpace(apiStringKey))
-            throw new Exception("No OpenAi api key");
+            throw new Exception("No OpenAI api key");
 
         client =
-            new OpenAI.Chat.ChatClient(model, options.Options.GetAdditionalOption("openAiKey", string.Empty))
+            new OpenAI.Chat.ChatClient(model, apiStringKey)
             .AsIChatClient();
         
         return Task.CompletedTask;

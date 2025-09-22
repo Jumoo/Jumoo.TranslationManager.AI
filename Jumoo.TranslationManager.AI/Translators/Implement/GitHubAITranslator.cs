@@ -12,6 +12,7 @@ namespace Jumoo.TranslationManager.AI.Translators.Implement;
 
 [Weight(2000)]
 [RequiredAIAdditionalOption("githubKey")]
+[RequiredAIAdditionalOption("githubModel")]
 public class GitHubAITranslator : AITranslatorBase, IAITranslator
 {
     public override string Alias => "GitHubAiTranslator";
@@ -35,7 +36,10 @@ public class GitHubAITranslator : AITranslatorBase, IAITranslator
         AzureKeyCredential credential = new(apiStringKey);
         Uri modelEndpoint = new("https://models.inference.ai.azure.com");
 
-        client = new ChatCompletionsClient(modelEndpoint, credential).AsIChatClient(options.Options.Model);
+        var model = options.Options.GetAdditionalOption<string?>("githubModel", null);
+        if (string.IsNullOrEmpty(model)) throw new Exception("No model provided");
+
+        client = new ChatCompletionsClient(modelEndpoint, credential).AsIChatClient(model);
         return Task.CompletedTask;
     }
 

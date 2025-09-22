@@ -103,7 +103,7 @@ export class TranslationAiConnectorConfigElement
             .expanded=${false}
           >
             <div>
-              ${this.renderModel()}${this.renderMaxTokens()}
+              ${this.renderMaxTokens()}
               ${this.renderTemperature()}${this.renderFrequencyPenalty()}
               ${this.renderPresencePenalty()}${this.renderNucleusSamplingFactor()}
               ${this.renderConversationId()}${this.renderInstructions()}

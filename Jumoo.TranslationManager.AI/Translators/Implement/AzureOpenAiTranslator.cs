@@ -13,6 +13,7 @@ namespace Jumoo.TranslationManager.AI.Translators.Implement;
 [Weight(300)]
 [RequiredAIAdditionalOption("azureKey")]
 [RequiredAIAdditionalOption("azureUrl")]
+[RequiredAIAdditionalOption("azureModel")]
 public class AzureOpenAiTranslator : AITranslatorBase, IAITranslator
 {
     public override string Alias => nameof(AzureOpenAiTranslator);
@@ -30,7 +31,9 @@ public class AzureOpenAiTranslator : AITranslatorBase, IAITranslator
         AzureOpenAIClient azureClient = new(
             new Uri(url),
             new ApiKeyCredential(apiStringKey));
-        chatClient = azureClient.GetChatClient(options.Options.Model);
+        var model = options.Options.GetAdditionalOption<string?>("azureModel", null);
+        if (string.IsNullOrEmpty(model)) throw new Exception("No model provided");
+        chatClient = azureClient.GetChatClient(model);
         return Task.CompletedTask;
     }
 

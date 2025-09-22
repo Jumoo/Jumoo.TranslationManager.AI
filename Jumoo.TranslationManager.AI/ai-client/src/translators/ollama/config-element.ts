@@ -10,37 +10,10 @@ export class OllamaTranslatorConfigElement
   implements TranslatorAIConfigElement
 {
   render() {
-    return html`${this.renderUrl()}${this.renderModel()}`;
-  }
-
-  renderModel() {
-    return html`<umb-property-layout
-      .label=${this.localize.term("ai_ollamaModel")}
-      .description=${this.localize.term("ai_ollamaModelDescription")}
-      ><div slot="editor">
-        <uui-input
-          id="ollamaModel"
-          label="Model"
-          .value=${(this.settings?.additional["ollamaModel"] as string) ?? ""}
-          @change=${this.onUpdateAdditional}
-        ></uui-input>
-      </div>
-    </umb-property-layout>`;
-  }
-
-  renderUrl() {
-    return html`<umb-property-layout
-      .label=${this.localize.term("ai_ollamaUrl")}
-      .description=${this.localize.term("ai_ollamaUrlDescription")}
-      ><div slot="editor">
-        <uui-input
-          id="ollamaUrl"
-          label="Url"
-          .value=${(this.settings?.additional["ollamaUrl"] as string) ?? ""}
-          @change=${this.onUpdateAdditional}
-        ></uui-input>
-      </div>
-    </umb-property-layout>`;
+    return html`${this.renderUrl("ollamaUrl")}${this.renderModel(
+      "ollamaModel",
+      "llama3.1"
+    )}`;
   }
 
   static styles = css`

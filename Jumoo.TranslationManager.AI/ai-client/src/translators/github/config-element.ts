@@ -10,7 +10,8 @@ export class GitHubTranslatorConfigElement
   implements TranslatorAIConfigElement
 {
   render() {
-    return html`${this.renderApiKey()}`;
+    return html`${this.renderApiKey()}
+    ${this.renderModel("githubModel", "gpt-4o-mini")}`;
   }
 
   renderApiKey() {

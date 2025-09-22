@@ -1,4 +1,5 @@
 import { ManifestElement } from "@umbraco-cms/backoffice/extension-api";
+import { html } from "@umbraco-cms/backoffice/external/lit";
 import { UmbLitElement } from "@umbraco-cms/backoffice/lit-element";
 import { property } from "lit/decorators.js";
 
@@ -49,5 +50,34 @@ export class TranslatorAIConfigElementBase extends UmbLitElement {
         detail: { name: "additional", value: addtionalValue },
       })
     );
+  }
+
+  renderUrl(alias: string) {
+    return html`<umb-property-layout .label=${this.localize.term("ai_" + alias)}
+      ><div slot="editor">
+        <uui-input
+          .id=${alias}
+          label="Url"
+          .value=${(this.settings?.additional[alias] as string) ?? ""}
+          @change=${this.onUpdateAdditional}
+        ></uui-input>
+        <div><em>${this.localize.term("ai_" + alias + "Description")}</em></div>
+      </div>
+    </umb-property-layout>`;
+  }
+
+  renderModel(alias: string, defaultModel: string) {
+    return html`<umb-property-layout
+      .label=${this.localize.term("ai_" + alias)}
+      .description=${this.localize.term("ai_" + alias + "Description")}
+      ><div slot="editor">
+        <uui-input
+          .id=${alias}
+          label="Model"
+          .value=${(this.settings?.additional[alias] as string) ?? defaultModel}
+          @change=${this.onUpdateAdditional}
+        ></uui-input>
+      </div>
+    </umb-property-layout>`;
   }
 }

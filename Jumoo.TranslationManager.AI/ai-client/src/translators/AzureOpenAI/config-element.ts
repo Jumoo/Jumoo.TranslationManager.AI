@@ -10,7 +10,8 @@ export class AzureTranslatorConfigElement
   implements TranslatorAIConfigElement
 {
   render() {
-    return html`${this.renderApiKey()} ${this.renderUrl()}`;
+    return html`${this.renderApiKey()} ${this.renderUrl("azureUrl")}
+    ${this.renderModel("azureModel", "gpt-4o-mini")}`;
   }
 
   renderApiKey() {
@@ -22,21 +23,6 @@ export class AzureTranslatorConfigElement
           id="azureKey"
           label="ApiKey"
           .value=${(this.settings?.additional?.azureKey as string) ?? ""}
-          @change=${this.onUpdateAdditional}
-        ></uui-input>
-      </div>
-    </umb-property-layout>`;
-  }
-
-  renderUrl() {
-    return html`<umb-property-layout
-      .label=${this.localize.term("ai_azureUrl")}
-      .description=${this.localize.term("ai_azureUrlDescription")}
-      ><div slot="editor">
-        <uui-input
-          id="azureUrl"
-          label="Url"
-          .value=${(this.settings?.additional.azureUrl as string) ?? ""}
           @change=${this.onUpdateAdditional}
         ></uui-input>
       </div>

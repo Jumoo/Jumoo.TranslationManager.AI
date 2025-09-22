@@ -36,7 +36,8 @@ export class GeminiTranslatorConfigElement
         <uui-input
           id="geminiModel"
           label="Model"
-          .value=${(this.settings?.additional["geminiModel"] as string) ?? ""}
+          .value=${(this.settings?.additional["geminiModel"] as string) ??
+          "gemini-2.0-flash"}
           @change=${this.onUpdateAdditional}
         ></uui-input>
       </div>

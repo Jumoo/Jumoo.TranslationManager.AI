@@ -10,7 +10,8 @@ export class OpenAITranslatorConfigElement
   implements TranslatorAIConfigElement
 {
   render() {
-    return html`${this.renderApiKey()}`;
+    return html`${this.renderApiKey()}
+    ${this.renderModel("openAiModel", "gpt-4o-mini")}`;
   }
 
   renderApiKey() {

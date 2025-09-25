@@ -9,6 +9,10 @@ export class OpenAITranslatorConfigElement
   extends TranslatorAIConfigElementBase
   implements TranslatorAIConfigElement
 {
+  defaultValues: Record<string, string> = {
+    openAiModel: "gpt-4o-mini",
+  };
+
   render() {
     return html`${this.renderApiKey()}
     ${this.renderModel("openAiModel", "gpt-4o-mini")}`;

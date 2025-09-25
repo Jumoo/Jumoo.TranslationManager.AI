@@ -3,7 +3,7 @@
 
     function AiService($http) {
 
-        var serviceroot = Umbraco.Sys.ServerVariables.openAiTranslations.service;
+        var serviceroot = Umbraco.Sys.ServerVariables.aiTranslations.service;
 
         return {
             getTranslators: getTranslators,

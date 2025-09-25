@@ -1,6 +1,5 @@
 ﻿using Jumoo.TranslationManager.AI.Models;
 using Microsoft.Extensions.AI;
-
 using Umbraco.Cms.Core.Composing;
 
 namespace Jumoo.TranslationManager.AI.Translators.Implement;
@@ -41,6 +40,6 @@ public class OpenAITranslator : AITranslatorBase, IAITranslator
         chatOptions.Tools = null;
         chatOptions.ToolMode = null;
 
-        return await GetBaseResponseAsync(prompts, chatOptions, options, options.Options.Model);
+        return await GetBaseResponseAsync(prompts, chatOptions, options, options.Options.GetAdditionalOption("openAiModel", string.Empty));
     }
 }

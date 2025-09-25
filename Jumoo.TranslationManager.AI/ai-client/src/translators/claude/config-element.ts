@@ -4,29 +4,29 @@ import {
 } from "../types";
 import { css, customElement, html } from "@umbraco-cms/backoffice/external/lit";
 
-@customElement("jumoo-tm-ai-azure-config")
-export class AzureTranslatorConfigElement
+@customElement("jumoo-tm-ai-claude-config")
+export class ClaudeAITranslatorConfigElement
   extends TranslatorAIConfigElementBase
   implements TranslatorAIConfigElement
 {
   defaultValues: Record<string, string> = {
-    azureModel: "gpt-4o-mini",
+    claudeAiModel: "claude-sonnet-4-0",
   };
 
   render() {
-    return html`${this.renderApiKey()} ${this.renderUrl("azureUrl")}
-    ${this.renderModel("azureModel", "gpt-4o-mini")}`;
+    return html`${this.renderApiKey()}
+    ${this.renderModel("claudeAiModel", "claude-sonnet-4-0")}`;
   }
 
   renderApiKey() {
     return html` <umb-property-layout
-      .label=${this.localize.term("ai_azureApiKey")}
-      .description=${this.localize.term("ai_azureApiKeyDescription")}
+      .label=${this.localize.term("ai_claudeAiApiKey")}
+      .description=${this.localize.term("ai_claudeAiApiKeyDescription")}
       ><div slot="editor">
         <uui-input
-          id="azureKey"
+          id="claudeAiKey"
           label="ApiKey"
-          .value=${(this.settings?.additional?.azureKey as string) ?? ""}
+          .value=${(this.settings?.additional?.claudeAiKey as string) ?? ""}
           @change=${this.onUpdateAdditional}
         ></uui-input>
       </div>
@@ -41,4 +41,4 @@ export class AzureTranslatorConfigElement
   `;
 }
 
-export default AzureTranslatorConfigElement;
+export default ClaudeAITranslatorConfigElement;

@@ -52,6 +52,7 @@
 		<PackageReference Include="Microsoft.Extensions.AI.AzureAIInference" Version="9.8.0-preview.1.25412.6" />
 		<PackageReference Include="Microsoft.Extensions.AI.OpenAI" Version="9.8.0-preview.1.25412.6" />
 		<PackageReference Include="OllamaSharp" Version="5.3.6" />
+		<PackageReference Include="Anthropic.SDK" Version="5.5.1" />
 	</ItemGroup>
 
 	<ItemGroup>

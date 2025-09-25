@@ -140,7 +140,7 @@ public class AiServerVariablesParserHandler :
 
     public void Handle(ServerVariablesParsingNotification notification)
     {
-        notification.ServerVariables.Add("openAiTranslations", new Dictionary<string, object>
+        notification.ServerVariables.Add("aiTranslations", new Dictionary<string, object>
         {
             { "service", _linkGenerator.GetUmbracoApiServiceBaseUrl<AIController>(x => x.GetApi()) ?? string.Empty }
         });

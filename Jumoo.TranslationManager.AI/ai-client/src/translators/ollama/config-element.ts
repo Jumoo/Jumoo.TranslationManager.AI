@@ -9,6 +9,10 @@ export class OllamaTranslatorConfigElement
   extends TranslatorAIConfigElementBase
   implements TranslatorAIConfigElement
 {
+  defaultValues: Record<string, string> = {
+    ollamaModel: "llama3.1",
+  };
+
   render() {
     return html`${this.renderUrl("ollamaUrl")}${this.renderModel(
       "ollamaModel",

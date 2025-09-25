@@ -9,6 +9,10 @@ export class GitHubTranslatorConfigElement
   extends TranslatorAIConfigElementBase
   implements TranslatorAIConfigElement
 {
+  defaultValues: Record<string, string> = {
+    githubModel: "gpt-4o-mini",
+  };
+
   render() {
     return html`${this.renderApiKey()}
     ${this.renderModel("githubModel", "gpt-4o-mini")}`;

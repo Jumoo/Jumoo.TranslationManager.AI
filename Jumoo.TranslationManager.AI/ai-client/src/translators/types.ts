@@ -16,6 +16,36 @@ export class TranslatorAIConfigElementBase extends UmbLitElement {
   @property()
   settings: Record<string, any> | null | undefined;
 
+  defaultValues?: Record<string, string>;
+
+  connectedCallback(): void {
+    super.connectedCallback();
+
+    if (!this.defaultValues) return;
+    if (this.settings?.additional == null) return;
+
+    let changes: Record<string, string> = {};
+    let hasChanges = false;
+
+    for (const defaultValue in this.defaultValues) {
+      if (!this.settings?.additional[defaultValue]) {
+        changes[defaultValue] = this.defaultValues[defaultValue];
+        hasChanges = true;
+      }
+    }
+
+    if (hasChanges) {
+      const addtionalValue = { ...this.settings.additional, ...changes };
+      this.dispatchEvent(
+        new CustomEvent("ai-translator-config-update", {
+          bubbles: true,
+          composed: true,
+          detail: { name: "additional", value: addtionalValue },
+        })
+      );
+    }
+  }
+
   protected onUpdateOption(e: Event) {
     const input = e.target as HTMLInputElement;
     if (!input) return;

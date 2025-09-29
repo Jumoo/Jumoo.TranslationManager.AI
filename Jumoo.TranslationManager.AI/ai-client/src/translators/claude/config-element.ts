@@ -14,23 +14,8 @@ export class ClaudeAITranslatorConfigElement
   };
 
   render() {
-    return html`${this.renderApiKey()}
+    return html`${this.renderApiKey("claudeAiKey")}
     ${this.renderModel("claudeAiModel", "claude-sonnet-4-0")}`;
-  }
-
-  renderApiKey() {
-    return html` <umb-property-layout
-      .label=${this.localize.term("ai_claudeAiApiKey")}
-      .description=${this.localize.term("ai_claudeAiApiKeyDescription")}
-      ><div slot="editor">
-        <uui-input
-          id="claudeAiKey"
-          label="ApiKey"
-          .value=${(this.settings?.additional?.claudeAiKey as string) ?? ""}
-          @change=${this.onUpdateAdditional}
-        ></uui-input>
-      </div>
-    </umb-property-layout>`;
   }
 
   static styles = css`

@@ -14,23 +14,8 @@ export class GitHubTranslatorConfigElement
   };
 
   render() {
-    return html`${this.renderApiKey()}
+    return html`${this.renderApiKey("githubKey")}
     ${this.renderModel("githubModel", "gpt-4o-mini")}`;
-  }
-
-  renderApiKey() {
-    return html` <umb-property-layout
-      .label=${this.localize.term("ai_githubAuthKey")}
-      .description=${this.localize.term("ai_githubAuthKeyDescription")}
-      ><div slot="editor">
-        <uui-input
-          id="githubKey"
-          label="ApiKey"
-          .value=${(this.settings?.additional?.githubKey as string) ?? ""}
-          @change=${this.onUpdateAdditional}
-        ></uui-input>
-      </div>
-    </umb-property-layout>`;
   }
 
   static styles = css`

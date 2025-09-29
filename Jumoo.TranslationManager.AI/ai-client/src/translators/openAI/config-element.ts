@@ -14,23 +14,8 @@ export class OpenAITranslatorConfigElement
   };
 
   render() {
-    return html`${this.renderApiKey()}
+    return html`${this.renderApiKey("openAIApiKey")}
     ${this.renderModel("openAiModel", "gpt-4o-mini")}`;
-  }
-
-  renderApiKey() {
-    return html` <umb-property-layout
-      .label=${this.localize.term("ai_openAIApiKey")}
-      .description=${this.localize.term("ai_openAIApiKeyDescription")}
-      ><div slot="editor">
-        <uui-input
-          id="openAiKey"
-          label="ApiKey"
-          .value=${(this.settings?.additional?.openAiKey as string) ?? ""}
-          @change=${this.onUpdateAdditional}
-        ></uui-input>
-      </div>
-    </umb-property-layout>`;
   }
 
   static styles = css`

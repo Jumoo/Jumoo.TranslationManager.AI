@@ -14,23 +14,8 @@ export class AzureTranslatorConfigElement
   };
 
   render() {
-    return html`${this.renderApiKey()} ${this.renderUrl("azureUrl")}
+    return html`${this.renderApiKey("azureKey")} ${this.renderUrl("azureUrl")}
     ${this.renderModel("azureModel", "gpt-4o-mini")}`;
-  }
-
-  renderApiKey() {
-    return html` <umb-property-layout
-      .label=${this.localize.term("ai_azureApiKey")}
-      .description=${this.localize.term("ai_azureApiKeyDescription")}
-      ><div slot="editor">
-        <uui-input
-          id="azureKey"
-          label="ApiKey"
-          .value=${(this.settings?.additional?.azureKey as string) ?? ""}
-          @change=${this.onUpdateAdditional}
-        ></uui-input>
-      </div>
-    </umb-property-layout>`;
   }
 
   static styles = css`

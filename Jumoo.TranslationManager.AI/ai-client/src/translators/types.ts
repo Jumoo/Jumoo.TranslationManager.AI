@@ -22,7 +22,7 @@ export class TranslatorAIConfigElementBase extends UmbLitElement {
     super.connectedCallback();
 
     if (!this.defaultValues) return;
-    if (this.settings?.additional == null) return;
+    if (!this.settings?.additional) return;
 
     let changes: Record<string, string> = {};
     let hasChanges = false;
@@ -82,13 +82,32 @@ export class TranslatorAIConfigElementBase extends UmbLitElement {
     );
   }
 
+  renderApiKey(alias: string) {
+    return html` <umb-property-layout
+      .label=${this.localize.term("ai_" + alias)}
+      .description=${this.localize.term("ai_" + alias + "Description")}
+      ><div slot="editor">
+        <uui-input
+          .id=${alias}
+          label="ApiKey"
+          .value=${!this.settings?.additional?.indexOf(alias)
+            ? ""
+            : (this.settings.additional[alias] as string)}
+          @change=${this.onUpdateAdditional}
+        ></uui-input>
+      </div>
+    </umb-property-layout>`;
+  }
+
   renderUrl(alias: string) {
     return html`<umb-property-layout .label=${this.localize.term("ai_" + alias)}
       ><div slot="editor">
         <uui-input
           .id=${alias}
           label="Url"
-          .value=${(this.settings?.additional[alias] as string) ?? ""}
+          .value=${!this.settings?.additional?.indexOf(alias)
+            ? ""
+            : (this.settings.additional[alias] as string)}
           @change=${this.onUpdateAdditional}
         ></uui-input>
         <div><em>${this.localize.term("ai_" + alias + "Description")}</em></div>
@@ -104,7 +123,9 @@ export class TranslatorAIConfigElementBase extends UmbLitElement {
         <uui-input
           .id=${alias}
           label="Model"
-          .value=${(this.settings?.additional[alias] as string) ?? defaultModel}
+          .value=${!this.settings?.additional?.indexOf(alias)
+            ? defaultModel
+            : (this.settings.additional[alias] as string)}
           @change=${this.onUpdateAdditional}
         ></uui-input>
       </div>

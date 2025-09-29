@@ -11,6 +11,8 @@
 		</key>
 		<key alias="key">OpenAI Api Key</key>
 		<key alias="key-desc">Your Open AI ApiKey</key>
+		<key alias="model">OpenAI Model</key>
+		<key alias="model-desc">AI Model used for translation.</key>
 	</area>
 	<area alias="tmAiGithub">
 		<key alias="description">
@@ -20,6 +22,8 @@
 		</key>
 		<key alias="key">Github Api Key</key>
 		<key alias="key-desc">Your Github AI ApiKey</key>
+		<key alias="model">Github Model</key>
+		<key alias="model-desc">AI Model used for translation</key>
 	</area>
 	<area alias="tmAiAzure">
 		<key alias="description">
@@ -37,6 +41,8 @@
 			Replace 'aoairesource' with your Azure OpenAI resource name).
 			<br/> https://{your-resource-name}.openai.azure.com]]>
 		</key>
+		<key alias="model">Azure Model</key>
+		<key alias="model-desc">AI Model used for translation</key>
 	</area>
 	<area alias="tmOllama">
 		<key alias="description">
@@ -48,8 +54,19 @@
 		<key alias="model-desc">You must have this model installed on your ollama instance</key>
 		<key alias="url">Ollama Url</key>
 		<key alias="url-desc">
-			<![CDATA[ the full url to your ollama server (e.g. https://localhost:11434)]]>
+			<![CDATA[ The full url to your ollama server (e.g. https://localhost:11434).]]>
 		</key>
+	</area>
+	<area alias="tmAiClaude">
+		<key alias="description">
+			<![CDATA[
+			<strong>Claude: </strong> Access Claude AI models via the Claude Api platform.
+			]]>
+		</key>
+		<key alias="key">Claude Api Key</key>
+		<key alias="key-desc">Your Claude Api Key</key>
+		<key alias="model">Claude AI Model</key>
+		<key alias="model-desc">AI Model used for translation</key>
 	</area>
 	<area alias="tmAi">
 		<key alias="name">AI Connector</key>
@@ -134,7 +151,7 @@
 
 		<key alias="service">OpenAi Library</key>
 		<key alias="service-desc">Choose which API Library to use when sending translations</key>
-		
+
 		<key alias="conversationId">Conversation Id</key>
 		<key alias="conversationId-desc">Optional conversation id to keep context between calls</key>
 
@@ -146,6 +163,6 @@
 
 		<key alias="topK">TopK</key>
 		<key alias="topK-desc"></key>
-		
+
 	</area>
 </language>

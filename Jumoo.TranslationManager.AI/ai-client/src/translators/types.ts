@@ -90,9 +90,7 @@ export class TranslatorAIConfigElementBase extends UmbLitElement {
         <uui-input
           .id=${alias}
           label="ApiKey"
-          .value=${!this.settings?.additional?.indexOf(alias)
-            ? ""
-            : (this.settings.additional[alias] as string)}
+          .value=${this.#valueOrDefault(alias, "")}
           @change=${this.onUpdateAdditional}
         ></uui-input>
       </div>
@@ -105,9 +103,7 @@ export class TranslatorAIConfigElementBase extends UmbLitElement {
         <uui-input
           .id=${alias}
           label="Url"
-          .value=${!this.settings?.additional?.indexOf(alias)
-            ? ""
-            : (this.settings.additional[alias] as string)}
+          .value=${this.#valueOrDefault(alias, "")}
           @change=${this.onUpdateAdditional}
         ></uui-input>
         <div><em>${this.localize.term("ai_" + alias + "Description")}</em></div>
@@ -123,12 +119,15 @@ export class TranslatorAIConfigElementBase extends UmbLitElement {
         <uui-input
           .id=${alias}
           label="Model"
-          .value=${!this.settings?.additional?.indexOf(alias)
-            ? defaultModel
-            : (this.settings.additional[alias] as string)}
+          .value=${this.#valueOrDefault(alias, defaultModel)}
           @change=${this.onUpdateAdditional}
         ></uui-input>
       </div>
     </umb-property-layout>`;
+  }
+
+  #valueOrDefault(alias: string, defaultValue: string) {
+    if (!this.settings?.additional) return defaultValue;
+    return (this.settings?.additional[alias] as string) ?? defaultValue;
   }
 }

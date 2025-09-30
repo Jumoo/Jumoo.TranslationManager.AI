@@ -38,7 +38,7 @@ public abstract class AITranslatorBase
             prompts.Add(new ChatMessage(ChatRole.System, options.GetSystemPrompt()));
 
         prompts.AddRange(
-            text.Select(x => new ChatMessage(ChatRole.User, options.GetPrompt(x))));
+            text.Select(x => new ChatMessage(ChatRole.User, x)));
 
         return prompts;
     }
@@ -65,7 +65,7 @@ public abstract class AITranslatorBase
         };
     }
 
-    protected async Task<AITranslationValueResult<List<string>>> GetBaseResponseAsync(List<ChatMessage> prompts, 
+    protected async Task<AITranslationValueResult<List<string>>> GetBaseResponseAsync(List<ChatMessage> prompts,
         ChatOptions chatOptions, AITranslatorRequestOptions options, string model)
     {
         if (client is null) return new AITranslationValueResult<List<string>>();
@@ -88,13 +88,13 @@ public abstract class AITranslatorBase
 
     public virtual bool IsValid(AIOptions options)
     {
-        foreach(var prop in _additionalProperties)
+        foreach (var prop in _additionalProperties)
         {
             if (string.IsNullOrWhiteSpace(options.GetAdditionalOption<string?>(prop, null)))
                 return false;
         }
 
-        foreach(var prop in _properties)
+        foreach (var prop in _properties)
         {
             var propertyInfo = typeof(AIOptions).GetProperty(prop);
             if (propertyInfo == null) return false;
@@ -106,7 +106,7 @@ public abstract class AITranslatorBase
 
         return true;
     }
-        
+
 
 }
 

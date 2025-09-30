@@ -162,7 +162,7 @@ namespace Jumoo.TranslationManager.AI.Services
         /// </summary>
         private async Task<AITranslationValueResult<string>> TranslateHtmlValue(string source, AITranslatorRequest request)
         {
-            if (!IsHtml(source))
+            if (!IsHtml(source) || source.Length <= _splitLength)
                 return await TranslateStringValue(source, request);
 
             var doc = new HtmlDocument();
@@ -170,6 +170,8 @@ namespace Jumoo.TranslationManager.AI.Services
 
             return await TranslateHtmlNodes(doc.DocumentNode.ChildNodes, request);
         }
+
+        private static int _splitLength = 10000;
 
         private async Task<AITranslationValueResult<string>> TranslateHtmlNodes(HtmlNodeCollection nodes, AITranslatorRequest request)
         {
@@ -188,7 +190,7 @@ namespace Jumoo.TranslationManager.AI.Services
                 var value = node.OuterHtml;
                 if (!string.IsNullOrWhiteSpace(value))
                 {
-                    if (value.Length > 5000)
+                    if (value.Length > _splitLength)
                     {
                         if (node.HasChildNodes)
                         {
@@ -208,14 +210,14 @@ namespace Jumoo.TranslationManager.AI.Services
                         }
                         else
                         {
-                            _logger.LogWarning("Splitting single html element that spans more than 5000 charecters. " +
+                            _logger.LogWarning("Splitting single html element that spans more than 10000 charecters. " +
                                 "This is larger than the request limit, splitting may result in some issues with translation.");
 
                             // we attempt to split the tag, we also wrap it in the nodeName, to make it fit
                             var innerValue = node.InnerHtml;
 
-                            // take the tag name and the braces (< > < / > ) from the 5000 budget. 
-                            var size = 4995 - (node.Name.Length * 2);
+                            // take the tag name and the braces (< > < / > ) from the 10000 budget. 
+                            var size = _splitLength - 5 - (node.Name.Length * 2);
                             values.AddRange(Split(innerValue, size, node.Name));
                         }
                     }
@@ -236,11 +238,11 @@ namespace Jumoo.TranslationManager.AI.Services
 
         /// <summary>
         ///  translates a string using the api, we assume the string isn't anything
-        ///  fancy, and if it's super long, we just hard split it at 5000 chars
+        ///  fancy, and if it's super long, we just hard split it at 10000 chars
         /// </summary>
         private async Task<AITranslationValueResult<string>> TranslateStringValue(string source, AITranslatorRequest request)
         {
-            var values = Split(source, 5000);
+            var values = Split(source, _splitLength);
             return await TranslateStringValues(values, request);
         }
 
@@ -339,7 +341,7 @@ namespace Jumoo.TranslationManager.AI.Services
             while (pos < values.Count && block.Count < 25)
             {
                 length += values[pos].Length;
-                if (length < 5000)
+                if (length <= _splitLength)
                 {
                     block.Add(values[pos]);
                 }

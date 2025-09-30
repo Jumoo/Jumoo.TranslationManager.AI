@@ -18,7 +18,7 @@ public class AIOptions
     public bool AsHtml { get; set; }
     public bool UseTranslationMemory { get; set; }
     public required string Model { get; set; } = AIConstants.Defaults.Model;
-    public required string Prompt { get; set; } = AIConstants.Defaults.Prompt;
+    // public required string Prompt { get; set; } = AIConstants.Defaults.Prompt;
     public required string SystemPrompt { get; set; } = AIConstants.Defaults.Prompt;
     public int? MaxTokens { get; set; } = AIConstants.Defaults.MaxTokens;
     public float? Temperature { get; set; } = AIConstants.Defaults.Temperature;

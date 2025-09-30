@@ -50,7 +50,6 @@ export class TranslationAiConnectorConfigElement
         translator: defaultSettings.translator,
         throttle: defaultSettings.throttle,
         model: defaultSettings.model,
-        prompt: defaultSettings.prompt,
         maxTokens: defaultSettings.maxTokens,
         temperature: defaultSettings.temperature,
         frequencyPenalty: defaultSettings.frequencyPenalty,
@@ -115,7 +114,7 @@ export class TranslationAiConnectorConfigElement
             .collapsable=${true}
             .expanded=${false}
           >
-            ${this.renderSystemPrompt()} ${this.renderPrompt()}</jumoo-tm-ui-box
+            ${this.renderSystemPrompt()}</jumoo-tm-ui-box
           >
         </div>
       </div>
@@ -355,22 +354,6 @@ export class TranslationAiConnectorConfigElement
           step="0.01"
         >
         </uui-input>
-      </div>
-    </umb-property-layout>`;
-  }
-
-  renderPrompt() {
-    return html` <umb-property-layout
-      .label=${this.localize.term("ai_prompt")}
-      .description=${this.localize.term("ai_promptDescription")}
-      ><div slot="editor">
-        <uui-textarea
-          id="prompt"
-          label="Prompt"
-          .value=${(this.settings?.prompt as string) ?? ""}
-          @change=${this.onUpdateOption}
-          rows="5"
-        ></uui-textarea>
       </div>
     </umb-property-layout>`;
   }

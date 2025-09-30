@@ -109,6 +109,16 @@
                     pvm.defaults.prompt ?? `Translate this {sourceLang} text into {targetLang}\r\n\r\n{text} `;
             }
 
+            if (newValue.additional === undefined) {
+                newValue.additional = {
+                    openAiModel: "gpt-4o",
+                    ollamaModel: "llama3.1",
+                    azureModel: "gpt-4o",
+                    githubModel: "gpt-4o",
+                    claudeAiModel: "claude-sonnet-4-0"
+                }
+            }
+
             changeTranslator();
 
         }

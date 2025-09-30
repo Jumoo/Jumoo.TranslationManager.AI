@@ -48,7 +48,7 @@ public class AzureOpenAiTranslator : AITranslatorBase, IAITranslator
             prompts.Add(new SystemChatMessage(systemPrompt));
 
         prompts.AddRange(
-            text.Select(x => new UserChatMessage(options.GetPrompt(x))));
+            text.Select(x => new UserChatMessage(x)));
 
         var chatOptions = new ChatCompletionOptions
         {

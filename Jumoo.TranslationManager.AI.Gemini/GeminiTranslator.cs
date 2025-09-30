@@ -36,11 +36,17 @@ public class GeminiTranslator : AITranslatorBase, IAITranslator
     {
         if (client is null) return new AITranslationValueResult<List<string>>();
 
-        var prompts = new List<ChatMessage>(text.Count());
+        var prompts = new List<ChatMessage>(text.Count() + 1);
+
+        var systemPrompt = options.GetSystemPrompt();
+        if (string.IsNullOrWhiteSpace(systemPrompt) is false)
+            prompts.Add(new ChatMessage(ChatRole.System, options.GetSystemPrompt()));
+
+
         // for each text string in the text strings
         foreach (var item in text)
         {
-            prompts.Add(new ChatMessage(ChatRole.User, options.GetPrompt(item)));
+            prompts.Add(new ChatMessage(ChatRole.User, item));
         }
 
         var chatOptions = GetBaseChatOptions(options);

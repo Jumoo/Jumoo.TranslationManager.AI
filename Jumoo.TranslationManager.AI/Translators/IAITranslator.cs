@@ -39,12 +39,12 @@ public class AITranslatorRequestOptions
 
 public static class AITranslatorRequestOptionsExtensions
 {
-    public static string GetPrompt(this AITranslatorRequestOptions options,
-       string text)
-       => options.Options.Prompt.Replace("{sourceLang}", options.SourceLanguage)
-           .Replace("{targetLang}", options.TargetLanguage)
-           .Replace("{textType}", options.Options.AsHtml ? "html" : "text")
-           .Replace("{text}", text);
+    //public static string GetPrompt(this AITranslatorRequestOptions options,
+    //   string text)
+    //   => options.Options.Prompt.Replace("{sourceLang}", options.SourceLanguage)
+    //       .Replace("{targetLang}", options.TargetLanguage)
+    //       .Replace("{textType}", options.Options.AsHtml ? "html" : "text")
+    //       .Replace("{text}", text);
 
     public static string GetSystemPrompt(this AITranslatorRequestOptions options)
         => options.Options.SystemPrompt.Replace("{sourceLang}", options.SourceLanguage)

@@ -30,7 +30,7 @@ namespace Jumoo.TranslationManager.AI.Services
                 Translator = await _configService.AIGetProviderSettingAsync(_alias, "translator", string.Empty),
                 Model = await _configService.AIGetProviderSettingAsync(_alias, "model", AIConstants.Defaults.Model),
                 AsHtml = await _configService.AIGetProviderSettingAsync(_alias, "asHtml", true),
-                Prompt = await _configService.AIGetProviderSettingAsync(_alias, "prompt", AIConstants.Defaults.Prompt),
+                //Prompt = await _configService.AIGetProviderSettingAsync(_alias, "prompt", AIConstants.Defaults.Prompt),
                 SystemPrompt = await _configService.AIGetProviderSettingAsync(_alias, "systemPrompt", AIConstants.Defaults.Prompt),
                 Split = await _configService.AIGetProviderSettingAsync(_alias, "split", true),
                 Throttle = await _configService.AIGetProviderSettingAsync(_alias, "throttle", AIConstants.Defaults.Throttle),

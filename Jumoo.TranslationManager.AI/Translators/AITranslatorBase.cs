@@ -1,6 +1,7 @@
 ﻿using Jumoo.TranslationManager.AI.Models;
 
 using Microsoft.Extensions.AI;
+using Microsoft.Extensions.Logging;
 
 namespace Jumoo.TranslationManager.AI.Translators;
 
@@ -12,8 +13,9 @@ public abstract class AITranslatorBase
     protected string[] _properties = [];
 
     protected IChatClient? client;
+    protected readonly ILogger<AITranslatorBase> _logger;
 
-    public AITranslatorBase()
+    public AITranslatorBase(ILogger<AITranslatorBase> logger)
     {
         var attributes = this.GetType().GetCustomAttributes(typeof(RequiredAIAdditionalOptionAttribute), true);
         _additionalProperties = attributes
@@ -26,6 +28,7 @@ public abstract class AITranslatorBase
             .OfType<RequiredAIOptionsAttribute>()
             .SelectMany(x => x.PropertyNames)
             .ToArray();
+        this._logger = logger;
     }
 
 
@@ -52,7 +55,7 @@ public abstract class AITranslatorBase
             Temperature = options.Options.Temperature,
             PresencePenalty = options.Options.PresencePenalty,
             TopP = options.Options.NucleusSamplingFactor,
-            AdditionalProperties = new AdditionalPropertiesDictionary(options.Options.Additional),
+            AdditionalProperties = [], // new AdditionalPropertiesDictionary(options.Options.Additional),
             TopK = options.Options.TopK,
             AllowMultipleToolCalls = options.Options.Tools?.Count > 0, // options.Options.AllowMultipleToolCalls,
             ConversationId = options.Options.ConversationId,
@@ -91,7 +94,10 @@ public abstract class AITranslatorBase
         foreach (var prop in _additionalProperties)
         {
             if (string.IsNullOrWhiteSpace(options.GetAdditionalOption<string?>(prop, null)))
+            {
+                _logger.LogWarning("Cannot find " + prop);
                 return false;
+            }
         }
 
         foreach (var prop in _properties)
@@ -101,7 +107,10 @@ public abstract class AITranslatorBase
             var value = propertyInfo.GetValue(options);
             if (value == null) return false;
             if (propertyInfo.PropertyType == typeof(string) && string.IsNullOrWhiteSpace(value as string))
+            {
+                _logger.LogWarning("Cannot find " + prop);
                 return false;
+            }
         }
 
         return true;

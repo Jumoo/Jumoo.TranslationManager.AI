@@ -1,7 +1,7 @@
 ﻿using Jumoo.TranslationManager.AI.Models;
 
 using Microsoft.Extensions.AI;
-
+using Microsoft.Extensions.Logging;
 using OllamaSharp;
 
 using Umbraco.Cms.Core.Composing;
@@ -13,6 +13,10 @@ namespace Jumoo.TranslationManager.AI.Translators.Implement;
 [Weight(400)]
 public class OllamaTranslator : AITranslatorBase, IAITranslator
 {
+    public OllamaTranslator(ILogger<AITranslatorBase> logger) : base(logger)
+    {
+    }
+
     public override string Alias => "OllamaTranslator";
 
     public string Name => "Ollama translator";

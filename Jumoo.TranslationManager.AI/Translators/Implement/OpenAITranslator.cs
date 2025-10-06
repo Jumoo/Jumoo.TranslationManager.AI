@@ -1,5 +1,6 @@
 ﻿using Jumoo.TranslationManager.AI.Models;
 using Microsoft.Extensions.AI;
+using Microsoft.Extensions.Logging;
 using Umbraco.Cms.Core.Composing;
 
 namespace Jumoo.TranslationManager.AI.Translators.Implement;
@@ -9,6 +10,10 @@ namespace Jumoo.TranslationManager.AI.Translators.Implement;
 [RequiredAIAdditionalOption("openAiModel")]
 public class OpenAITranslator : AITranslatorBase, IAITranslator
 {
+    public OpenAITranslator(ILogger<AITranslatorBase> logger) : base(logger)
+    {
+    }
+
     public override string Alias => "OpenAiTranslator";
     public string Name => "OpenAI Translator";
 

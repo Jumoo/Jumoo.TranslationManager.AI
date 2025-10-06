@@ -1,7 +1,7 @@
 ﻿using Azure.AI.OpenAI;
 
 using Jumoo.TranslationManager.AI.Models;
-
+using Microsoft.Extensions.Logging;
 using OpenAI.Chat;
 
 using System.ClientModel;
@@ -20,6 +20,11 @@ public class AzureOpenAiTranslator : AITranslatorBase, IAITranslator
     public string Name => "Azure Foundry translator";
 
     public ChatClient? chatClient;
+
+    public AzureOpenAiTranslator(ILogger<AITranslatorBase> logger) : base(logger)
+    {
+    }
+
     public Task Initialize(AITranslatorRequestOptions options)
     {
         var apiStringKey = options.Options.GetAdditionalOption<string?>("azureKey", null);

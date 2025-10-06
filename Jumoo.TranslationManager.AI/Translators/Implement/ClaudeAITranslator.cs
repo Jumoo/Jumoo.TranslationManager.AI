@@ -2,6 +2,7 @@
 using Anthropic.SDK.Constants;
 using Jumoo.TranslationManager.AI.Models;
 using Microsoft.Extensions.AI;
+using Microsoft.Extensions.Logging;
 using Umbraco.Cms.Core.Composing;
 
 namespace Jumoo.TranslationManager.AI.Translators.Implement;
@@ -11,6 +12,10 @@ namespace Jumoo.TranslationManager.AI.Translators.Implement;
 [RequiredAIAdditionalOption("claudeAiModel")]
 internal class ClaudeAITranslator : AITranslatorBase, IAITranslator
 {
+    public ClaudeAITranslator(ILogger<AITranslatorBase> logger) : base(logger)
+    {
+    }
+
     public override string Alias => "ClaudeAiTranslator";
     public string Name => "Claude AI Translator";
 

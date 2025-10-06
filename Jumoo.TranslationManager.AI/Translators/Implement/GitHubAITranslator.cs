@@ -15,15 +15,12 @@ namespace Jumoo.TranslationManager.AI.Translators.Implement;
 [RequiredAIAdditionalOption("githubModel")]
 public class GitHubAITranslator : AITranslatorBase, IAITranslator
 {
+    public GitHubAITranslator(ILogger<AITranslatorBase> logger) : base(logger)
+    {
+    }
+
     public override string Alias => "GitHubAiTranslator";
     public string Name => "GitHub Inference model translator";
-
-    private readonly ILogger<GitHubAITranslator> logger;
-
-    public GitHubAITranslator(ILogger<GitHubAITranslator> logger)
-    {
-        this.logger = logger;
-    }
 
     public Task Initialize(AITranslatorRequestOptions options)
     {

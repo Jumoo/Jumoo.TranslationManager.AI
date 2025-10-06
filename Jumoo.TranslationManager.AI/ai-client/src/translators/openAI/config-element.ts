@@ -14,7 +14,7 @@ export class OpenAITranslatorConfigElement
   };
 
   render() {
-    return html`${this.renderApiKey("openAIApiKey")}
+    return html`${this.renderApiKey("openAiKey")}
     ${this.renderModel("openAiModel", "gpt-4o-mini")}`;
   }
 

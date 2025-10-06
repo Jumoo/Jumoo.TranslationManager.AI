@@ -4,7 +4,7 @@ using GeminiDotnet.Extensions.AI;
 using Jumoo.TranslationManager.AI.Models;
 
 using Microsoft.Extensions.AI;
-
+using Microsoft.Extensions.Logging;
 using Umbraco.Cms.Core.Composing;
 
 namespace Jumoo.TranslationManager.AI.Translators.Implement;
@@ -14,6 +14,10 @@ namespace Jumoo.TranslationManager.AI.Translators.Implement;
 [Weight(250)]
 public class GeminiTranslator : AITranslatorBase, IAITranslator
 {
+    public GeminiTranslator(ILogger<AITranslatorBase> logger) : base(logger)
+    {
+    }
+
     public override string Alias => "GeminiTranslator";
     public string Name => "Gemini Translator";
 

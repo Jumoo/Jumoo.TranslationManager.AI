@@ -74,6 +74,7 @@ public abstract class AITranslatorBase
         if (client is null) return new AITranslationValueResult<List<string>>();
 
         var result = await client.GetResponseAsync(prompts, chatOptions);
+        if (result.FinishReason == ChatFinishReason.Length) throw new Exception("Translation request exceeded allocated max output tokens.");
 
         return new AITranslationValueResult<List<string>>()
         {

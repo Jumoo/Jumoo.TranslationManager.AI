@@ -78,10 +78,6 @@ export class TranslationAiConnectorPendingElement
       .expanded=${false}
       ><div class="settings-box">
         <div class="setting">
-          <div class="title">Model</div>
-          <div class="value">${settings?.model ?? "gpt-4o-mini"}</div>
-        </div>
-        <div class="setting">
           <div class="title">Max Tokens</div>
           <div class="value">${settings?.maxTokens ?? "500"}</div>
         </div>

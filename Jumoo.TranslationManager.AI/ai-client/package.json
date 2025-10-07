@@ -1,6 +1,6 @@
 {
   "name": "@jumoo/translate-ai",
-  "version": "16.0.0-rc4.3",
+  "version": "1.0.1",
   "licence": "Custom",
   "description": "Jumoo ai connector",
   "type": "module",

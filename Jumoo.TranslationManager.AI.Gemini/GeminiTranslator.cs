@@ -30,7 +30,7 @@ public class GeminiTranslator : AITranslatorBase, IAITranslator
         if (string.IsNullOrWhiteSpace(apiStringKey))
             throw new Exception("No gemini api key");
 
-        var geminiOptions = new GeminiClientOptions { ApiKey = apiStringKey, ModelId = model };
+        var geminiOptions = new GeminiClientOptions { ApiKey = apiStringKey, ModelId = model, ApiVersion = GeminiApiVersions.V1Beta };
 
         client = new GeminiChatClient(geminiOptions);
         return Task.CompletedTask;

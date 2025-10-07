@@ -8,14 +8,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Jumoo.TranslationManager.AI" Version="1.0.0" />
 		<PackageReference Include="GeminiDotnet.Extensions.AI" Version="0.14.2" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Folder Include="gemini-client\" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\Jumoo.TranslationManager.AI\Jumoo.TranslationManager.AI.csproj" />
 	</ItemGroup>
 </Project>

@@ -2,7 +2,6 @@
 
 namespace Jumoo.TranslationManager.AI.Services;
 
-#if UMB_16_OR_GREATER
 
 using Jumoo.TranslationManager.Core.Memory;
 
@@ -80,20 +79,3 @@ public class AIMemoryService : IAIMemoryService
         return merged;
     }
 }
-#else
-public class AIMemoryService : IAIMemoryService
-{
-    public Task AddTranslationMemory(List<string> source, List<string> values, string sourceLang, string targetLang, string reference, string translatorName)
-    {
-        return Task.CompletedTask;
-    }
-    public Task<Dictionary<int, string>> GetTranslatedMemoryValues(List<string> values, string source, string target, string translatorName)
-    {
-        return Task.FromResult(new Dictionary<int, string>());
-    }
-    public List<string> MergeTranslationMemory(List<string> translated, Dictionary<int, string> memory)
-    {
-        return translated;
-    }
-}
-#endif

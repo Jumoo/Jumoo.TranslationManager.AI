@@ -37,6 +37,6 @@ internal class PassthroughConnectorManifestReader : IPackageManifestReader
             EntryPointScript = WebPath.Combine("/App_Plugins/Translations.AI.Gemini", "AI.js")
         }.ToPackageManifest();
 
-        return Task.FromResult(manifest.AsEnumerableOfOne());
+        return Task.FromResult<IEnumerable<PackageManifest>>([manifest]);
     }
 }

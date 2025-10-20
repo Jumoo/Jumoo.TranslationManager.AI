@@ -5,13 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-#if UMB_16_OR_GREATER
 using Jumoo.Processing.Core.Communication;
-#endif
 
 namespace Jumoo.TranslationManager.AI.Services;
 
-#if UMB_16_OR_GREATER
 public class AIMessageService : IAIMessageService
 {
     private readonly IClientMessageService _messageService;
@@ -31,12 +28,3 @@ public class AIMessageService : IAIMessageService
         }, clientId);
     }
 }
-#else
-public class AIMessageService : IAIMessageService
-{
-    public Task SendUpdateAsync(string title, string message, decimal progress, string clientId)
-    {
-        return Task.CompletedTask;
-    }
-}
-#endif

@@ -1,5 +1,4 @@
-﻿#if UMB_16_OR_GREATER
-using Jumoo.TranslationManager.AI.Translators;
+﻿using Jumoo.TranslationManager.AI.Translators;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -45,4 +44,3 @@ namespace Jumoo.TranslationManager.AI.Controllers
             => Ok(new AIConnectorDefaults());
     }
 }
-#endif

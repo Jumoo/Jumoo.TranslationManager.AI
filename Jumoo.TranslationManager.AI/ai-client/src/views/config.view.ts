@@ -37,10 +37,8 @@ export class TranslationAiConnectorConfigElement
   async connectedCallback() {
     super.connectedCallback();
 
-    // @ts-expect-error
     this.translators = (await AiTranslate.aiTranslateTranslators()).data;
 
-    // @ts-expect-error
     const defaultSettings = (await AiTranslate.aiTranslateDefaults())
       .data as AiConnectorDefaults;
 

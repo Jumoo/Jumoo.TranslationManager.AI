@@ -51,5 +51,6 @@
 
 	<ItemGroup>
 		<Folder Include="ai-client\src\translators\ollama\" />
+		<Folder Include="wwwroot\" />
 	</ItemGroup>
 </Project>

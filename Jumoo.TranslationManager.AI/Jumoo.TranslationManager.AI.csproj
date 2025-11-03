@@ -34,10 +34,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Jumoo.TranslationManager.Core" Version="17.0.0-beta" />
-		<PackageReference Include="Jumoo.TranslationManager.Serializers" Version="17.0.0-beta" />
-		<PackageReference Include="Jumoo.TranslationManager.Connectors" Version="17.0.0-beta" />
-		<PackageReference Include="Umbraco.Cms.Api.Management" Version="17.0.0-beta" />
+		<PackageReference Include="Jumoo.TranslationManager.Core" Version="17.0.0-rc1" />
+		<PackageReference Include="Jumoo.TranslationManager.Serializers" Version="17.0.0-rc1" />
+		<PackageReference Include="Jumoo.TranslationManager.Connectors" Version="17.0.0-rc1" />
+		<PackageReference Include="Umbraco.Cms.Api.Management" Version="17.0.0-rc1" />
 	</ItemGroup>
 
 	<ItemGroup>

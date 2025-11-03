@@ -17,10 +17,10 @@
         "format": "prettier \"src/**/*.ts\" --check"
     },
     "devDependencies": {
-        "@jumoo/translate": "^16.0.0",
+        "@jumoo/translate": "^17.0.0-rc1",
         "@jumoo/translate-ai": "^1.0.1",
         "@rollup/plugin-node-resolve": "^15.2.3",
-        "@umbraco-cms/backoffice": "^17.0.0-beta",
+        "@umbraco-cms/backoffice": "^17.0.0-rc1",
         "lit": "^3.1.3",
         "prettier": "^3.3.3",
         "rm-rs": "^0.2.3",

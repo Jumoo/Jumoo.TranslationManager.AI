@@ -71,23 +71,31 @@ public abstract class AITranslatorBase
     protected async Task<AITranslationValueResult<List<string>>> GetBaseResponseAsync(List<ChatMessage> prompts,
         ChatOptions chatOptions, AITranslatorRequestOptions options, string model)
     {
-        if (client is null) return new AITranslationValueResult<List<string>>();
-
-        var result = await client.GetResponseAsync(prompts, chatOptions);
-        if (result.FinishReason == ChatFinishReason.Length) throw new Exception("Translation request exceeded allocated max output tokens.");
-
-        return new AITranslationValueResult<List<string>>()
+        try
         {
-            Value = result.Messages.Select(x => x.Text).ToList(),
-            AIResult = new AITranslationResult()
+            if (client is null) return new AITranslationValueResult<List<string>>();
+
+            var result = await client.GetResponseAsync(prompts, chatOptions);
+            if (result.FinishReason == ChatFinishReason.Length) throw new Exception("Translation request exceeded allocated max output tokens.");
+            if (result.FinishReason == ChatFinishReason.ContentFilter) throw new Exception("Translation request stopped due to content filter.");
+
+            return new AITranslationValueResult<List<string>>()
             {
-                ModelUsed = result.ModelId ?? model,
-                TranslatorUsed = Alias,
-                TokensUsed = result.Usage?.TotalTokenCount ?? 0,
-                InputTokens = result.Usage?.InputTokenCount ?? 0,
-                OutputTokens = result.Usage?.OutputTokenCount ?? 0,
-            }
-        };
+                Value = result.Messages.Select(x => x.Text).ToList(),
+                AIResult = new AITranslationResult()
+                {
+                    ModelUsed = result.ModelId ?? model,
+                    TranslatorUsed = Alias,
+                    TokensUsed = result.Usage?.TotalTokenCount ?? 0,
+                    InputTokens = result.Usage?.InputTokenCount ?? 0,
+                    OutputTokens = result.Usage?.OutputTokenCount ?? 0,
+                }
+            };
+        }
+        catch (Exception ex) { 
+            _logger.LogError(ex, "Error during translation.");
+            throw;
+        }
     }
 
     public virtual bool IsValid(AIOptions options)

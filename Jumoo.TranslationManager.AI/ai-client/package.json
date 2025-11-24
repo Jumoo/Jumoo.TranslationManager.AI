@@ -1,6 +1,6 @@
 {
   "name": "@jumoo/translate-ai",
-  "version": "1.0.1",
+  "version": "17.0.0-rc4",
   "licence": "Custom",
   "description": "Jumoo ai connector",
   "type": "module",
@@ -22,7 +22,7 @@
   "scripts": {
     "client:build": "tsc --project ./tsconfig.dist.json",
     "client:pack": "npm pack --pack-destination ./pack",
-    "client:publish": "npm publish",
+    "client:publish": "npm publish -tag next",
     "client:make": "npm run client:build && npm run client:pack && npm run client:publish",
     "client:link": "npm link",
     "build": "tsc && vite build",

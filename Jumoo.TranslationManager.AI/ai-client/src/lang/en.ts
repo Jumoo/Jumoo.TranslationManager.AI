@@ -82,5 +82,9 @@ export default {
     ollamaUrlDescription: "The URL of your Ollama server",
     ollamaModel: "Ollama Model",
     ollamaModelDescription: "The model to use on your Ollama server",
+    geminiKey: "Google Gemini API Key",
+    geminiKeyDescription: "AI Translation API Key for Google Gemini",
+    geminiModel: "Google Gemini Model",
+    geminiModelDescription: "AI model to use for translation",
   },
 };

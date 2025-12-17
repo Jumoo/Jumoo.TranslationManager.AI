@@ -41,8 +41,8 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
-		<PackageReference Include="Jumoo.TranslationManager.Core" Version="13.*" />
-		<PackageReference Include="Jumoo.TranslationManager.Serializers" Version="13.*" />
+		<PackageReference Include="Jumoo.TranslationManager.Core" Version="13.2.19" />
+		<PackageReference Include="Jumoo.TranslationManager.Serializers" Version="13.2.19" />
 		<PackageReference Include="Umbraco.Cms.Web.BackOffice" version="13.*" />
 	</ItemGroup>
 

@@ -64,23 +64,18 @@ namespace Jumoo.TranslationManager.AI.Services
         {
             try
             {
-                var settings = await _configService.AIGetProviderSettingAsync(_alias, "additional", "");
+                object settings = await _configService.AIGetProviderSettingAsync(_alias, "additional", new Dictionary<string, object>());
 
-                return settings.AIDeserializeJson<Dictionary<string, object?>>() ?? [];
-
-
-                //var additionalSettings = new Dictionary<string, object?>();
-
-                //foreach (var setting in settings)
-                //{
-                //    var split = setting.Split(new char[] { '=' });
-                //    if (split.Length == 2)
-                //    {
-                //        additionalSettings[split[0].ToLower()] = split[1];
-                //    }
-                //}
-
-                //return additionalSettings;
+                switch(settings)
+                {
+                    case Dictionary<string, object?> dict:
+                        return dict;
+                    case string str:
+                        settings = str.AIDeserializeJson<Dictionary<string, object>>() ?? [];
+                        break;
+                    default:
+                        return [];
+                }
             }
             catch // (Exception ex)
             {

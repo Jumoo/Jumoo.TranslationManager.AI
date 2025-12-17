@@ -3,3 +3,6 @@
 /dist/*.exe
 /Jumoo.TranslationManager.AI.Gemini/wwwroot/
 /dist/*.txt
+*.[Ss]ite
+.vs
+*.sln

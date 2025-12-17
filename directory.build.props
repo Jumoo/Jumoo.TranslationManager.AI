@@ -1,0 +1,77 @@
+<Project>
+    <PropertyGroup>
+
+		<!-- how we build for diffrent versions . -->
+		<Authors>Kevin Jump</Authors>
+		<Company>Jumoo</Company>
+
+		<Version>11.0.0</Version>
+
+		<PackageLicenceExpression></PackageLicenceExpression>
+		<PackageProjectUrl>https://jumoo.co.uk/translate</PackageProjectUrl>
+		<Copyright>Jumoo @ 2017-2024</Copyright>
+
+		<!-- security warning, because we compile against base umbraco versions 
+			As an add on we are not vulnrable to the issue, and we don't want to
+			force people to upgrade. 
+		-->
+		<NoWarn>NU1901,NU1902,NU1903</NoWarn>
+
+		<!-- <TreatWarningsAsErrors>true</TreatWarningsAsErrors> -->
+
+		<PackageReleaseNotes>
+			<![CDATA[ 
+1.0.x - Production release.
+1.1.x - Improved support for nested property elements.
+1.2.x - Improved Xliff 2.0 Support.
+1.3.x - Pull translations from target languages.
+2.0.x - Update of Namespace / Inclusion of version auditing.
+2.1.x - Simplified Vorto Configuration, Improved translation status dialogs, Health Checks.
+2.2.x - Improved Inline Image/Macro and Link Xliff formatting.
+8.0.x - Umbraco 8 Version.
+8.1.x - Umbraco 8.1 Compatable version (Still works on 8.0).
+8.2.x - Culture LCID -> Name Migration (Improved Language Support).
+8.3.x - Simpler custom mapping config.
+8.4.x - Support for v8.7 Block List Editor.
+8.5.x - Batch translation dashboard, history logging.
+8.6.x - Missing content target checking.
+8.7.x - RegEx Properties and Blob support
+9.0.x - Mulit-targeted Umbraco v8/v9 Release
+10.x - Umbraco 10 release
+11.x - Umbraco 11 release
+12.x - Umbraco 12 release
+13.x - Umbraco 13 release
+14.x - Umbraco 14 release]]>
+		</PackageReleaseNotes>
+	</PropertyGroup>
+
+	<!-- release builds are optimized -->
+	<PropertyGroup Condition="$(Configuration.Contains('Release'))">
+		<Optimize>true</Optimize>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net8.0'">
+		<DefineConstants>$(DefineConstants);UMB_13_OR_LESS</DefineConstants>
+		<DefineConstants>$(DefineConstants);UMB_14_OR_LESS</DefineConstants>
+		<DefineConstants>$(DefineConstants);UMB_15_OR_LESS</DefineConstants>
+		<DefineConstants>$(DefineConstants);UMB_16_OR_LESS</DefineConstants>
+		<DefineConstants>$(DefineConstants);UMB_13_ONLY</DefineConstants>
+		<DefineConstants>$(DefineConstants);UMB_10_OR_GREATER</DefineConstants>
+		<DefineConstants>$(DefineConstants);UMB_11_OR_GREATER</DefineConstants>
+		<DefineConstants>$(DefineConstants);UMB_12_OR_GREATER</DefineConstants>
+		<DefineConstants>$(DefineConstants);UMB_13_OR_GREATER</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net9.0'">
+		<DefineConstants>$(DefineConstants);UMB_16_OR_LESS</DefineConstants>
+		<DefineConstants>$(DefineConstants);UMB_16_ONLY</DefineConstants>
+		<DefineConstants>$(DefineConstants);UMB_10_OR_GREATER</DefineConstants>
+		<DefineConstants>$(DefineConstants);UMB_11_OR_GREATER</DefineConstants>
+		<DefineConstants>$(DefineConstants);UMB_12_OR_GREATER</DefineConstants>
+		<DefineConstants>$(DefineConstants);UMB_13_OR_GREATER</DefineConstants>
+		<DefineConstants>$(DefineConstants);UMB_14_OR_GREATER</DefineConstants>
+		<DefineConstants>$(DefineConstants);UMB_15_OR_GREATER</DefineConstants>
+		<DefineConstants>$(DefineConstants);UMB_16_OR_GREATER</DefineConstants>
+	</PropertyGroup>
+
+</Project>

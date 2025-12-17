@@ -27,7 +27,7 @@ param (
 
 # define the packages you want to build 
 # (we assume folder and package name are the same)
-# $package = "Umbraco.Community.MaintenanceMode"
+# $package = "Jumoo.TranslationManager.Ai"
 
 # - - - - - - - - generic from here - - - - - - - - -
 
